@@ -3,17 +3,18 @@ package train;
 /**
  * Représentation d'un train. Un train est caractérisé par deux valeurs :
  * <ol>
- *   <li>
- *     Son nom pour l'affichage.
- *   </li>
- *   <li>
- *     La position qu'il occupe dans le circuit (un élément avec une direction) : classe {@link Position}.
- *   </li>
+ * <li>
+ * Son nom pour l'affichage.
+ * </li>
+ * <li>
+ * La position qu'il occupe dans le circuit (un élément avec une direction) :
+ * classe {@link Position}.
+ * </li>
  * </ol>
- * 
+ *
  * @author Fabien Dagnat <fabien.dagnat@imt-atlantique.fr>
  * @author Mayte segarra <mt.segarra@imt-atlantique.fr>
- * Test if the first element of a train is a station
+ *         Test if the first element of a train is a station
  * @author Philippe Tanguy <philippe.tanguy@imt-atlantique.fr>
  * @version 0.3
  */
@@ -26,13 +27,30 @@ public class Train {
 			throw new NullPointerException();
 
 		// A train should be first be in a station
-		if (!(p.getPos() instanceof Station))
+		if (!(p.getPos() instanceof Station)) {
+
 			throw new BadPositionForTrainException(name);
+		}
 
 		this.name = name;
 		this.pos = p.clone();
 	}
 
+	/**
+	 * Calcul du prochain élément où le train va se rendre.
+	 * Calcul de la nouvelle direction (change uniquement si le train est en bout de
+	 * ligne).
+	 *
+	 * @author Nicolas Sempéré
+	 */
+	public void move() {
+		this.pos.setNewPos();
+		this.pos.setNewDir();
+	}
+
+	/**
+	 * @return String
+	 */
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder("Train[");

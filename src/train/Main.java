@@ -4,6 +4,10 @@ package train;
  * @author Fabien Dagnat <fabien.dagnat@imt-atlantique.fr>
  */
 public class Main {
+
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Station A = new Station("GareA", 3);
 		Station D = new Station("GareD", 3);
@@ -16,11 +20,14 @@ public class Main {
 		Position p = new Position(A, Direction.LR);
 		try {
 			Train t1 = new Train("1", p);
-			Train t2 = new Train("2", p);
-			Train t3 = new Train("3", p);
+			// Train t2 = new Train("2", p);
+			// Train t3 = new Train("3", p);
 			System.out.println(t1);
-			System.out.println(t2);
-			System.out.println(t3);
+			// System.out.println(t2);
+			// System.out.println(t3);
+			for (int i = 0; i < 20; i++) {
+				t1.move();
+			}
 		} catch (BadPositionForTrainException e) {
 			System.out.println("Le train " + e.getMessage());
 		}
