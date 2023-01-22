@@ -1,4 +1,4 @@
-package train;
+	package train;
 
 public class BadPositionForTrainException extends Exception {
 	private static final long serialVersionUID = 1L;

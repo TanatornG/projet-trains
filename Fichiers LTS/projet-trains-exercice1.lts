@@ -1,0 +1,41 @@
+// Exercice 1 : Un train se déplace sur la ligne de chemin de fer.
+//				Une fois arrivé en bout de ligne, il fait demi tour.
+//				On ne distingue pas encore gares et sections de rails.
+
+const N = 5 // Nombre d"éléments sur la ligne de chemin de fer
+range P = 1..N 
+
+// Le déplacement du train est décomposé en deux temps :
+//    - il atteint une section (ou une gare)
+//    - il quitte une section (ou une gare)
+TRAIN = (atteindre -> partir -> TRAIN).
+
+// Un element représente à la fois les gares et les sections de rails.
+ELEMENT = (newTrain -> leaveTrain -> ELEMENT).
+
+// La ligne de chemin de fer est décomposée comme suivant (p représente la position) :
+// 		Element1 -- Element2 -- Element3 -- ... -- ElementN-1 -- ElementN
+//		  p=1    --    p=2   --   p=3    -- ... --   p=N-1    --   p=N     
+//
+// Le train parcourt la ligne comme suivant :  
+// 		arrive en Element1 -> quitte l'Element1 -> arrive en Element2 -> ... -> arrive en ElementN-1 ->
+// 		quitte l'ElementN-1 -> arrive en ElementN.
+// Il fait ensuite demi-tour :
+// 		quitte l'ElementN -> arrive en ElementN-1 -> ... -> quitte l'Element3 ->
+// 		arrive en Element2 -> quitte l'Element2 -> arrive en Element1.
+// Puis il recommence son parcours.
+// D = 1 <-> déplacement de gauche à droite || D = 2 <-> déplacement de droite à gauche
+POSITION(P=1,D=1) = POSITION[P][D],
+	POSITION[p:P][d:1..2] =	(when(p>1 & p<N & d==1) arriver[p] -> quitter[p] -> POSITION[p+1][1]
+							|when(p==N) 			arriver[N] -> quitter[N] -> POSITION[N-1][2]
+							|when(p>1 & p<N & d==2) arriver[p] -> quitter[p] -> POSITION[p-1][2]
+							|when(p==1) 			arriver[1] -> quitter[1] -> POSITION[2][1]
+							).
+
+||RAILWAY = (train:TRAIN || element[P]:ELEMENT || pos:POSITION(1,1))
+/{
+	forall[p:P]{
+		pos.arriver[p]/{element[p].newTrain, train.atteindre},
+		pos.quitter[p]/{element[p].leaveTrain, train.partir}
+	}
+}.
