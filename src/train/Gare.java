@@ -11,11 +11,35 @@ package train;
  */
 public class Gare extends Element {
 	private final int size;
+	private int quaisDispos;
 
 	public Gare(String name, int size) {
 		super(name);
 		if (name == null || size <= 0)
 			throw new NullPointerException();
 		this.size = size;
+		this.quaisDispos = size;
+	}
+
+	/**
+	 *
+	 *
+	 * @author Nicolas Sempéré
+	 */
+	public void newTrain() {
+		if (this.quaisDispos > 0) {
+			this.quaisDispos -= 1;
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @author Nicolas Sempéré
+	 */
+	public void leaveTrain() {
+		if (this.quaisDispos >= 0 && this.quaisDispos < this.size) {
+			this.quaisDispos += 1;
+		}
 	}
 }
