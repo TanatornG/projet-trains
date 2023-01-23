@@ -11,13 +11,13 @@ public enum Direction {
 	LR {
 		@Override
 		public String toString() {
-			return "from left to right";
+			return "gauche-droite";
 		}
 	},
 	RL {
 		@Override
 		public String toString() {
-			return "from right to left";
+			return "droite-gauche";
 		}
 	};
 }

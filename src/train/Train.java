@@ -10,6 +10,11 @@ package train;
  * La position qu'il occupe dans le circuit (un élément avec une direction) :
  * classe {@link Position}.
  * </li>
+ * <li>
+ * Le déplacement du train est décomposé en deux temps :
+ * - il quitte une section (ou une gare)
+ * - il atteint une section (ou une gare)
+ * <li>
  * </ol>
  *
  * @author Fabien Dagnat <fabien.dagnat@imt-atlantique.fr>
@@ -27,7 +32,7 @@ public class Train {
 			throw new NullPointerException();
 
 		// A train should be first be in a station
-		if (!(p.getPos() instanceof Station)) {
+		if (!(p.getPos() instanceof Gare)) {
 
 			throw new BadPositionForTrainException(name);
 		}
@@ -37,15 +42,20 @@ public class Train {
 	}
 
 	/**
-	 * Calcul du prochain élément où le train va se rendre.
-	 * Calcul de la nouvelle direction (change uniquement si le train est en bout de
-	 * ligne).
+	 *
 	 *
 	 * @author Nicolas Sempéré
 	 */
-	public void move() {
-		this.pos.setNewPos();
-		this.pos.setNewDir();
+	public void atteindre() {
+		this.pos.arriver();
+	}
+
+	/**
+	 *
+	 * @author Nicolas Sempéré
+	 */
+	public void partir() {
+		this.pos.quitter();
 	}
 
 	/**

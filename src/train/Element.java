@@ -7,7 +7,7 @@ package train;
  * l'entrée d'un train, sa sortie et l'appartenance au circuit.<br/>
  * Les deux sous-classes sont :
  * <ol>
- * <li>La représentation d'une gare : classe {@link Station}</li>
+ * <li>La représentation d'une gare : classe {@link Gare}</li>
  * <li>La représentation d'une section de voie ferrée : classe
  * {@link Section}</li>
  * </ol>
@@ -26,15 +26,36 @@ public abstract class Element {
 		this.name = name;
 	}
 
-	public String getName() {
-		return this.name;
-	}
-
 	public void setRailway(Railway r) {
 		if (r == null)
 			throw new NullPointerException();
 
 		this.railway = r;
+	}
+
+	/**
+	 * Implémentée dans l'exercice 2
+	 *
+	 * @author Nicolas Sempéré
+	 */
+	public void newTrain() {
+
+	}
+
+	/**
+	 * Implémentée dans l'exercice 2
+	 *
+	 * @author Nicolas Sempéré
+	 */
+	public void leaveTrain() {
+
+	}
+
+	/**
+	 * @author Nicolas Sempéré
+	 */
+	public String getName() {
+		return this.name;
 	}
 
 	@Override

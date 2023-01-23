@@ -22,26 +22,32 @@ public class Railway {
 	}
 
 	/**
-	 *
+	 * @param pos
+	 * @return L'élément à droite de pos
 	 * @author Nicolas Sempéré
 	 */
-	public Element getNextElement(Element pos, Direction direction) {
-		int indexOfPos = getIndexOfElement(pos);
-		if (direction == Direction.LR) {
-			return this.elements[indexOfPos + 1];
-		} else {
-			return this.elements[indexOfPos - 1];
-		}
+	public Element getElementLR(Element pos) {
+		return this.elements[getIndexOfElement(pos) + 1];
+	}
+
+	/**
+	 * @param pos
+	 * @return L'élément à gauche de pos
+	 * @author Nicolas Sempéré
+	 */
+	public Element getElementRL(Element pos) {
+		return this.elements[getIndexOfElement(pos) - 1];
 	}
 
 	/**
 	 * @param pos (soit une gare, soit une section de rails)
-	 * @return l'indice de pos dans le tableau représentant la ligne
+	 * @return l'indice de pos dans le tableau représentant la ligne de chemin de
+	 *         fer
 	 *
 	 * @author Nicolas Sempéré
 	 */
 	public int getIndexOfElement(Element pos) {
-		for (int i = 0; i <= (this.elements.length - 1); i++) {
+		for (int i = 1; i <= (this.railwayLength - 1); i++) {
 			// System.out.println("this.elements[i] est" + this.elements[i] + " et pos est"
 			// + pos);
 			if (this.elements[i] == pos) {

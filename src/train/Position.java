@@ -5,7 +5,7 @@ package train;
  * est caractérisée par deux valeurs :
  * <ol>
  * <li>
- * L'élément où se positionne le train : une gare (classe {@link Station})
+ * L'élément où se positionne le train : une gare (classe {@link Gare})
  * ou une section de voie ferrée (classe {@link Section}).
  * </li>
  * <li>
@@ -24,11 +24,20 @@ public class Position implements Cloneable {
 	private Direction direction;
 	private Element pos;
 
+	private boolean canLeaveToGoRL;
+	private boolean canLeaveToGoLR;
+	private boolean canLeaveGareA;
+	private boolean canLeaveGareB;
+	private final int railwayLength;
+
 	public Position(Element elt, Direction d) {
 		if (elt == null || d == null)
 			throw new NullPointerException();
 		this.pos = elt;
 		this.direction = d;
+
+		// The length of the railway (not counting "GareAvantDeploiement")
+		railwayLength = this.pos.railway.railwayLength - 1;
 	}
 
 	/**
@@ -52,35 +61,52 @@ public class Position implements Cloneable {
 	}
 
 	/**
-	 * Calcul du prochain élément où le train va se rendre.
+	 * Méthode permettant de déterminer où le train peut se rendre
 	 *
 	 * @author Nicolas Sempéré
 	 */
-	public void setNewPos() {
-		Element oldPosition = this.pos;
-		Element newPosition = oldPosition.railway.getNextElement(this.pos, this.direction);
-		this.pos = newPosition;
-		System.out.println("Le train sort de " + oldPosition.getName() + " et entre dans " + this.pos.getName());
-	}
-
-	/**
-	 * Si le train est en bout de ligne, sa direction est inversée.
-	 *
-	 * @author Nicolas Sempéré
-	 */
-	public void setNewDir() {
+	public void arriver() {
 		int indexOfPos = this.pos.railway.getIndexOfElement(this.pos);
 		// System.out.println("L'index est " + indexOfPos + " et la direction est " +
 		// this.direction);
-		if (indexOfPos == 0 || indexOfPos == (this.pos.railway.railwayLength - 1)) {
-			if (this.direction == Direction.RL) {
-				this.direction = Direction.LR;
-				System.out.println("Le train se retourne.");
-			} else {
-				this.direction = Direction.RL;
-				System.out.println("Le train se retourne.");
+		if (indexOfPos > 1 & indexOfPos < (railwayLength)) {
+			if (this.direction == Direction.LR) {
+				this.canLeaveToGoLR = true;
+			} else if (this.direction == Direction.RL) {
+				this.canLeaveToGoRL = true;
 			}
+		} else if (indexOfPos == 1) {
+			this.canLeaveGareA = true;
+		} else if (indexOfPos == railwayLength) {
+			this.canLeaveGareB = true;
 		}
+	}
+
+	/**
+	 * Méthode réalisant concrètement le déplacement du train
+	 *
+	 * @author Nicolas Sempéré
+	 */
+	public void quitter() {
+		Element currentPosition = this.pos;
+		if (this.canLeaveToGoLR) {
+			this.pos = this.pos.railway.getElementLR(this.pos);
+			this.canLeaveToGoLR = false;
+		} else if (this.canLeaveToGoRL) {
+			this.pos = this.pos.railway.getElementRL(this.pos);
+			this.canLeaveToGoRL = false;
+		} else if (this.canLeaveGareA) {
+			this.pos = this.pos.railway.getElementLR(this.pos);
+			this.direction = Direction.LR;
+			this.canLeaveGareA = false;
+		} else if (this.canLeaveGareB) {
+			this.pos = this.pos.railway.getElementRL(this.pos);
+			this.direction = Direction.RL;
+			this.canLeaveGareB = false;
+		}
+		System.out.println("Le train sort de " + currentPosition.getName()
+				+ " et entre dans " + this.pos.getName()
+				+ " Sa direction est " + this.direction);
 	}
 
 	/**

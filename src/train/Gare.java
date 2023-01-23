@@ -9,10 +9,10 @@ package train;
  * @author Fabien Dagnat <fabien.dagnat@imt-atlantique.fr>
  * @author Philippe Tanguy <philippe.tanguy@imt-atlantique.fr>
  */
-public class Station extends Element {
+public class Gare extends Element {
 	private final int size;
 
-	public Station(String name, int size) {
+	public Gare(String name, int size) {
 		super(name);
 		if (name == null || size <= 0)
 			throw new NullPointerException();

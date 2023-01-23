@@ -33,7 +33,7 @@ POSITION(P=1,D=1) = POSITION[P][D],
 							).
 
 ||RAILWAY = (train:TRAIN || element[P]:ELEMENT || pos:POSITION(1,1))
-/{
+/{		
 	forall[p:P]{
 		pos.arriver[p]/{element[p].newTrain, train.atteindre},
 		pos.quitter[p]/{element[p].leaveTrain, train.partir}
