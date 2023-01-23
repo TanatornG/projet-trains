@@ -39,7 +39,6 @@ public abstract class Element {
 	 * @author Nicolas Sempéré
 	 */
 	public void newTrain() {
-
 	}
 
 	/**
@@ -48,7 +47,6 @@ public abstract class Element {
 	 * @author Nicolas Sempéré
 	 */
 	public void leaveTrain() {
-
 	}
 
 	/**

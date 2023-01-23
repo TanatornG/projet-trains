@@ -71,13 +71,17 @@ public class Position implements Cloneable {
 		// this.direction);
 		if (indexOfPos > 1 & indexOfPos < (railwayLength)) {
 			if (this.direction == Direction.LR) {
+				this.pos.newTrain();
 				this.canLeaveToGoLR = true;
 			} else if (this.direction == Direction.RL) {
+				this.pos.newTrain();
 				this.canLeaveToGoRL = true;
 			}
 		} else if (indexOfPos == 1) {
+			this.pos.newTrain();
 			this.canLeaveGareA = true;
 		} else if (indexOfPos == railwayLength) {
+			this.pos.newTrain();
 			this.canLeaveGareB = true;
 		}
 	}
@@ -91,16 +95,20 @@ public class Position implements Cloneable {
 		Element currentPosition = this.pos;
 		if (this.canLeaveToGoLR) {
 			this.pos = this.pos.railway.getElementLR(this.pos);
+			this.pos.leaveTrain();
 			this.canLeaveToGoLR = false;
 		} else if (this.canLeaveToGoRL) {
 			this.pos = this.pos.railway.getElementRL(this.pos);
+			this.pos.leaveTrain();
 			this.canLeaveToGoRL = false;
 		} else if (this.canLeaveGareA) {
 			this.pos = this.pos.railway.getElementLR(this.pos);
+			this.pos.leaveTrain();
 			this.direction = Direction.LR;
 			this.canLeaveGareA = false;
 		} else if (this.canLeaveGareB) {
 			this.pos = this.pos.railway.getElementRL(this.pos);
+			this.pos.leaveTrain();
 			this.direction = Direction.RL;
 			this.canLeaveGareB = false;
 		}
