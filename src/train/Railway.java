@@ -1,5 +1,7 @@
 package train;
 
+import java.util.Arrays;
+
 /**
  * Représentation d'un circuit constitué d'éléments de voie ferrée : gare ou
  * section de voie
@@ -11,6 +13,10 @@ public class Railway {
 	private final Element[] elements;
 	protected final int railwayLength;
 
+	private int[] controller;
+
+	protected final boolean debug;
+
 	public Railway(Element[] elements) {
 		if (elements == null)
 			throw new NullPointerException();
@@ -19,6 +25,9 @@ public class Railway {
 		for (Element e : elements)
 			e.setRailway(this);
 		this.railwayLength = this.elements.length;
+		this.controller = new int[railwayLength - 2];
+		Arrays.fill(this.controller, 0);
+		this.debug = false;
 	}
 
 	/**
@@ -47,7 +56,7 @@ public class Railway {
 	 * @author Nicolas Sempéré
 	 */
 	public int getIndexOfElement(Element pos) {
-		for (int i = 1; i <= (this.railwayLength - 1); i++) {
+		for (int i = 0; i <= (this.railwayLength - 1); i++) {
 			// System.out.println("this.elements[i] est" + this.elements[i] + " et pos est"
 			// + pos);
 			if (this.elements[i] == pos) {
@@ -55,6 +64,58 @@ public class Railway {
 			}
 		}
 		return -1;
+	}
+
+	/**
+	 * @author Nicolas Sempéré
+	 */
+	public synchronized void inUse(int posIndex) {
+		if (debug) {
+			System.out.println("inUse");
+		}
+		int index = posIndex - 1;
+		if (debug) {
+			System.out.println("index vaut " + index + " et controller de index vaut " + this.controller[index]);
+		}
+		while (!(this.controller[index] == 1)) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		this.controller[index] = 0;
+		if (debug) {
+			System.out.println("Le controller vaut " + Arrays.toString(this.controller));
+		}
+		notifyAll();
+
+	}
+
+	/**
+	 * @author Nicolas Sempéré
+	 */
+	public synchronized void free(int posIndex) {
+		if (debug) {
+			System.out.println("free");
+		}
+		int index = posIndex - 1;
+		if (debug) {
+			System.out.println("index vaut " + index + " et controller de index vaut " + this.controller[index]);
+		}
+		while (!(this.controller[index] == 0)) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		this.controller[index] = 1;
+		if (debug) {
+			System.out.println("Le controller vaut " + Arrays.toString(this.controller));
+		}
+		notifyAll();
+
 	}
 
 	@Override

@@ -9,7 +9,8 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// L'implémentation du déploiement d'un train est faite dès l'exercice 2.
+		// Un train est initialement en position 0 (il se trouve en
+		// GareAvantDeploiement).
 		Gare GareAvantDeploiement = new Gare("GareAvantDeploiement", 3);
 		Gare A = new Gare("GareA", 1);
 		Gare B = new Gare("GareB", 1);
@@ -18,19 +19,10 @@ public class Main {
 		Section S4 = new Section("S4");
 		Railway r = new Railway(new Element[] { GareAvantDeploiement, A, S2, S3, S4, B });
 		System.out.println("The railway is:" + "\t" + r);
-		// System.out.println("\t" + r);
-		Position p = new Position(A, Direction.LR);
+		Position p = new Position(GareAvantDeploiement, Direction.LR);
 		try {
-			Train t1 = new Train("1", p);
-			// Train t2 = new Train("2", p);
-			// Train t3 = new Train("3", p);
-			System.out.println(t1);
-			// System.out.println(t2);
-			// System.out.println(t3);
-			for (int i = 0; i < 20; i++) {
-				t1.atteindre();
-				t1.partir();
-			}
+			new Thread(new Train("1", p)).start();
+			new Thread(new Train("2", p.clone())).start();
 		} catch (BadPositionForTrainException e) {
 			System.out.println("Le train " + e.getMessage());
 		}

@@ -26,10 +26,25 @@ public class Gare extends Element {
 	 *
 	 * @author Nicolas Sempéré
 	 */
-	public void newTrain() {
-		if (this.quaisDispos > 0) {
-			this.quaisDispos -= 1;
+	public synchronized void newTrain() {
+		if (this.railway.debug) {
+			System.out.println("newTrain");
 		}
+		while (!(this.quaisDispos > 0)) {
+			try {
+				if (super.debug) {
+					System.out.println("Train attend");
+				}
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		this.quaisDispos -= 1;
+		if (this.railway.debug) {
+			System.out.println("newTrain exécutée");
+		}
+		notifyAll();
 	}
 
 	/**
@@ -37,9 +52,25 @@ public class Gare extends Element {
 	 *
 	 * @author Nicolas Sempéré
 	 */
-	public void leaveTrain() {
-		if (this.quaisDispos >= 0 && this.quaisDispos < this.size) {
-			this.quaisDispos += 1;
+	public synchronized void leaveTrain() {
+		if (this.railway.debug) {
+			System.out.println("leaveTrain et il y a " + this.quaisDispos
+					+ " quais dispos et la size vaut " + this.size);
 		}
+		while (!(this.quaisDispos >= 0 && this.quaisDispos <= this.size)) {
+			try {
+				if (super.debug) {
+					System.out.println("Train attend");
+				}
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		this.quaisDispos += 1;
+		if (this.railway.debug) {
+			System.out.println("leaveTrain exécutée");
+		}
+		notifyAll();
 	}
 }

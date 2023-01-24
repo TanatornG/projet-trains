@@ -23,7 +23,7 @@ package train;
  * @author Philippe Tanguy <philippe.tanguy@imt-atlantique.fr>
  * @version 0.3
  */
-public class Train {
+public class Train implements Runnable {
 	private final String name;
 	private final Position pos;
 
@@ -48,6 +48,7 @@ public class Train {
 	 */
 	public void atteindre() {
 		this.pos.arriver();
+		System.out.println("Le train " + this.name + " sort de " + this.pos.getPos());
 	}
 
 	/**
@@ -56,6 +57,37 @@ public class Train {
 	 */
 	public void partir() {
 		this.pos.quitter();
+		System.out.println("Le train " + this.name + " entre dans " + this.pos.getPos());
+	}
+
+	/**
+	 *
+	 * @author Nicolas Sempéré
+	 */
+	public void run() {
+		if (this.name == "1") {
+			for (int i = 0; i < 20; i++) {
+				atteindre();
+				partir();
+				try {
+					Thread.sleep(200);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		if (this.name == "2") {
+			for (int i = 0; i < 20; i++) {
+				atteindre();
+				partir();
+				try {
+					Thread.sleep(200);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
 	}
 
 	/**
