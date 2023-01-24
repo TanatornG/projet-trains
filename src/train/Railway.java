@@ -16,6 +16,7 @@ public class Railway {
 	private int[] controller;
 
 	protected final boolean debug;
+	protected final boolean debug3;
 
 	public Railway(Element[] elements) {
 		if (elements == null)
@@ -28,6 +29,7 @@ public class Railway {
 		this.controller = new int[railwayLength - 2];
 		Arrays.fill(this.controller, 0);
 		this.debug = false;
+		this.debug3 = true;
 	}
 
 	/**
@@ -69,9 +71,9 @@ public class Railway {
 	/**
 	 * @author Nicolas Sempéré
 	 */
-	public synchronized void inUse(int posIndex) {
-		if (debug) {
-			System.out.println("inUse");
+	public synchronized void inUse(int posIndex, String trainName) {
+		if (debug3) {
+			System.out.println("Le train " + trainName + " inUse");
 		}
 		int index = posIndex - 1;
 		if (debug) {
@@ -79,14 +81,17 @@ public class Railway {
 		}
 		while (!(this.controller[index] == 1)) {
 			try {
+				System.out.println("Le train " + trainName + " attend ctrl");
 				wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 		this.controller[index] = 0;
-		if (debug) {
-			System.out.println("Le controller vaut " + Arrays.toString(this.controller));
+		if (debug3) {
+			System.out
+					.println(
+							"Le controller vaut " + Arrays.toString(this.controller) + " et le train vaut" + trainName);
 		}
 		notifyAll();
 
@@ -95,9 +100,9 @@ public class Railway {
 	/**
 	 * @author Nicolas Sempéré
 	 */
-	public synchronized void free(int posIndex) {
-		if (debug) {
-			System.out.println("free");
+	public synchronized void free(int posIndex, String trainName) {
+		if (debug3) {
+			System.out.println("Le train " + trainName + " free");
 		}
 		int index = posIndex - 1;
 		if (debug) {
@@ -105,14 +110,17 @@ public class Railway {
 		}
 		while (!(this.controller[index] == 0)) {
 			try {
+				System.out.println("Le train " + trainName + " attend ctrl");
 				wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 		this.controller[index] = 1;
-		if (debug) {
-			System.out.println("Le controller vaut " + Arrays.toString(this.controller));
+		if (debug3) {
+			System.out
+					.println(
+							"Le controller vaut " + Arrays.toString(this.controller) + " et le train vaut" + trainName);
 		}
 		notifyAll();
 
