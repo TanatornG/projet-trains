@@ -19,7 +19,6 @@ public abstract class Element {
 	private final String name;
 	protected Railway railway;
 
-	protected boolean debug;
 
 	protected Element(String name) {
 		if (name == null)
@@ -27,7 +26,6 @@ public abstract class Element {
 
 		this.name = name;
 
-		this.debug = true;
 	}
 
 	public void setRailway(Railway r) {

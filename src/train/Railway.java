@@ -15,8 +15,10 @@ public class Railway {
 
 	private int[] controller;
 
-	protected final boolean debug;
-	protected final boolean debug3;
+	protected final boolean debugCtrl;
+	protected final boolean debugGare;
+	protected final boolean debugPosition;
+	protected final boolean debugSection;
 
 	public Railway(Element[] elements) {
 		if (elements == null)
@@ -28,8 +30,10 @@ public class Railway {
 		this.railwayLength = this.elements.length;
 		this.controller = new int[railwayLength - 2];
 		Arrays.fill(this.controller, 0);
-		this.debug = false;
-		this.debug3 = true;
+		this.debugCtrl = false;
+		this.debugGare = false;
+		this.debugSection = false;
+		this.debugPosition = false;
 	}
 
 	/**
@@ -72,11 +76,11 @@ public class Railway {
 	 * @author Nicolas Sempéré
 	 */
 	public synchronized void inUse(int posIndex, String trainName) {
-		if (debug3) {
+		if (debugCtrl) {
 			System.out.println("Le train " + trainName + " inUse");
 		}
 		int index = posIndex - 1;
-		if (debug) {
+		if (debugCtrl) {
 			System.out.println("index vaut " + index + " et controller de index vaut " + this.controller[index]);
 		}
 		while (!(this.controller[index] == 1)) {
@@ -88,7 +92,7 @@ public class Railway {
 			}
 		}
 		this.controller[index] = 0;
-		if (debug3) {
+		if (debugCtrl) {
 			System.out
 					.println(
 							"Le controller vaut " + Arrays.toString(this.controller) + " et le train vaut" + trainName);
@@ -101,11 +105,11 @@ public class Railway {
 	 * @author Nicolas Sempéré
 	 */
 	public synchronized void free(int posIndex, String trainName) {
-		if (debug3) {
+		if (debugCtrl) {
 			System.out.println("Le train " + trainName + " free");
 		}
 		int index = posIndex - 1;
-		if (debug) {
+		if (debugCtrl) {
 			System.out.println("index vaut " + index + " et controller de index vaut " + this.controller[index]);
 		}
 		while (!(this.controller[index] == 0)) {
@@ -117,7 +121,7 @@ public class Railway {
 			}
 		}
 		this.controller[index] = 1;
-		if (debug3) {
+		if (debugCtrl) {
 			System.out
 					.println(
 							"Le controller vaut " + Arrays.toString(this.controller) + " et le train vaut" + trainName);

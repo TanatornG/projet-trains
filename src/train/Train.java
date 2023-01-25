@@ -66,7 +66,7 @@ public class Train implements Runnable {
 	 */
 	public void run() {
 		if (this.name == "1") {
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 	20; i++) {
 				atteindre();
 				partir();
 				try {
@@ -80,18 +80,18 @@ public class Train implements Runnable {
 				atteindre();
 				partir();
 				try {
-					Thread.sleep(2000);
+					Thread.sleep(200);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
 		}
 		if (this.name == "2") {
-			for (int i = 0; i < 20; i++) {
+			for (int i = 0; i < 50; i++) {
 				atteindre();
 				partir();
 				try {
-					Thread.sleep(300);
+					Thread.sleep(20);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

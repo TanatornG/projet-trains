@@ -30,8 +30,6 @@ public class Position implements Cloneable {
 	private boolean canLeaveGareB;
 	private final int railwayLength;
 
-	private boolean canDeployer;
-
 	public Position(Element elt, Direction d) {
 		if (elt == null || d == null)
 			throw new NullPointerException();
@@ -69,11 +67,11 @@ public class Position implements Cloneable {
 	 * @author Nicolas Sempéré
 	 */
 	public void arriver(String trainName) {
-		if (this.pos.railway.debug) {
+		if (this.pos.railway.debugPosition) {
 			System.out.println("arriver");
 		}
 		int indexOfPos = this.pos.railway.getIndexOfElement(this.pos);
-		if (this.pos.railway.debug) {
+		if (this.pos.railway.debugPosition) {
 			System.out.println("\n" + "L'index est " + indexOfPos + " et la direction est " +
 					this.direction);
 		}
@@ -99,9 +97,6 @@ public class Position implements Cloneable {
 			this.pos.newTrain();
 			this.canLeaveGareB = true;
 
-		} else if (indexOfPos == 0) {
-			this.pos.newTrain();
-			this.canDeployer = true;
 		}
 	}
 
@@ -111,7 +106,7 @@ public class Position implements Cloneable {
 	 * @author Nicolas Sempéré
 	 */
 	public void quitter(String trainName) {
-		if (this.pos.railway.debug) {
+		if (this.pos.railway.debugPosition) {
 			System.out.println("quitter");
 		}
 		Element currentPosition = this.pos;
@@ -143,10 +138,6 @@ public class Position implements Cloneable {
 			this.direction = Direction.RL;
 			this.canLeaveGareB = false;
 
-		} else if (this.canDeployer) {
-			this.pos = this.pos.railway.getElementLR(this.pos);
-			this.pos.leaveTrain();
-			this.canDeployer = false;
 		}
 	}
 

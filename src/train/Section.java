@@ -21,12 +21,12 @@ public class Section extends Element {
 	 * @author Nicolas Sempéré
 	 */
 	public synchronized void newTrain() {
-		if (this.railway.debug) {
-			System.out.println("newTrain");
+		if (this.railway.debugSection) {
+			System.out.println(" section newTrain");
 		}
 		while (!sectionDispo) {
 			try {
-				if(super.debug){
+				if (this.railway.debugSection) {
 					System.out.println("Train attend section");
 				}
 				wait();
@@ -35,7 +35,7 @@ public class Section extends Element {
 			}
 		}
 		this.sectionDispo = false;
-		if (this.railway.debug) {
+		if (this.railway.debugSection) {
 			System.out.println("newTrain exécutée");
 		}
 		notifyAll();
@@ -47,12 +47,12 @@ public class Section extends Element {
 	 * @author Nicolas Sempéré
 	 */
 	public synchronized void leaveTrain() {
-		if (this.railway.debug) {
-			System.out.println("leaveTrain et il y a " + this.sectionDispo);
+		if (this.railway.debugSection) {
+			System.out.println("section leaveTrain et il y a " + this.sectionDispo);
 		}
 		while (this.sectionDispo) {
 			try {
-				if(super.debug){
+				if (this.railway.debugSection) {
 					System.out.println("Train attend section");
 				}
 				wait();
@@ -61,7 +61,7 @@ public class Section extends Element {
 			}
 		}
 		this.sectionDispo = true;
-		if (this.railway.debug) {
+		if (this.railway.debugSection) {
 			System.out.println("leaveTrain exécutée");
 		}
 		notifyAll();
