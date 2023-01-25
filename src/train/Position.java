@@ -113,28 +113,28 @@ public class Position implements Cloneable {
 		int indexOfPos = currentPosition.railway.getIndexOfElement(currentPosition);
 
 		if (this.canLeaveToGoLR) {
-			this.pos = this.pos.railway.getElementLR(this.pos);
 			this.pos.leaveTrain();
 			this.pos.railway.inUse(indexOfPos, trainName);
+			this.pos = this.pos.railway.getElementLR(this.pos);
 			this.canLeaveToGoLR = false;
 
 		} else if (this.canLeaveToGoRL) {
-			this.pos = this.pos.railway.getElementRL(this.pos);
 			this.pos.leaveTrain();
 			this.pos.railway.inUse(indexOfPos - 1, trainName);
+			this.pos = this.pos.railway.getElementRL(this.pos);
 			this.canLeaveToGoRL = false;
 
 		} else if (this.canLeaveGareA) {
-			this.pos = this.pos.railway.getElementLR(this.pos);
 			this.pos.leaveTrain();
 			this.pos.railway.inUse(1, trainName);
+			this.pos = this.pos.railway.getElementLR(this.pos);
 			this.direction = Direction.LR;
 			this.canLeaveGareA = false;
 
 		} else if (this.canLeaveGareB) {
-			this.pos = this.pos.railway.getElementRL(this.pos);
 			this.pos.leaveTrain();
 			this.pos.railway.inUse(railwayLength - 1, trainName);
+			this.pos = this.pos.railway.getElementRL(this.pos);
 			this.direction = Direction.RL;
 			this.canLeaveGareB = false;
 

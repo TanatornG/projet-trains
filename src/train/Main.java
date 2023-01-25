@@ -13,7 +13,7 @@ public class Main {
 		// GareAvantDeploiement).
 		Gare GareAvantDeploiement = new Gare("GareAvantDeploiement", 2);
 		Gare A = new Gare("GareA", 2);
-		Gare B = new Gare("GareB", 1);
+		Gare B = new Gare("GareB", 2);
 		Section S2 = new Section("S2");
 		Section S3 = new Section("S3");
 		Section S4 = new Section("S4");
@@ -22,7 +22,7 @@ public class Main {
 		Position p = new Position(A, Direction.LR);
 		try {
 			new Thread(new Train("1", p)).start();
-			new Thread(new Train("2", p.clone())).start();
+			// new Thread(new Train("2", p.clone())).start();
 		} catch (BadPositionForTrainException e) {
 			System.out.println("Le train " + e.getMessage());
 		}

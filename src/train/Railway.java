@@ -31,9 +31,9 @@ public class Railway {
 		this.controller = new int[railwayLength - 2];
 		Arrays.fill(this.controller, 0);
 		this.debugCtrl = false;
-		this.debugGare = false;
+		this.debugGare = true;
 		this.debugSection = false;
-		this.debugPosition = false;
+		this.debugPosition = true;
 	}
 
 	/**
