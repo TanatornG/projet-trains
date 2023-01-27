@@ -17,10 +17,5 @@ Exercice 3 : Éviter les interblocages
 Exercice 4 : Gare intermédiaire 
 --> Cf <Fichiers LTS/projet-trains-exercice4.lts>
 
-
-La documentation (générée via javadoc), est dans le dossier "javadoc".
---> Cf <javadoc/index.html> pour la consulter.
-
-
 Le code Java se trouve dans le fichier "src".
 --> Cf <src/train>

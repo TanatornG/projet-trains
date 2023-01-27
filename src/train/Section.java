@@ -12,7 +12,7 @@ public class Section extends Element {
 
 	public Section(String name) {
 		super(name);
-		this.sectionDispo = false;
+		this.sectionDispo = true;
 	}
 
 	/**
@@ -22,9 +22,9 @@ public class Section extends Element {
 	 */
 	public synchronized void newTrain() {
 		if (this.railway.debugSection) {
-			System.out.println(" section newTrain");
+			System.out.println(super.getName() + " section newTrain");
 		}
-		while (!sectionDispo) {
+		while (!this.sectionDispo) {
 			try {
 				if (this.railway.debugSection) {
 					System.out.println("Train attend section");
@@ -48,7 +48,7 @@ public class Section extends Element {
 	 */
 	public synchronized void leaveTrain() {
 		if (this.railway.debugSection) {
-			System.out.println("section leaveTrain et il y a " + this.sectionDispo);
+			System.out.println(super.getName() + "section leaveTrain");
 		}
 		while (this.sectionDispo) {
 			try {

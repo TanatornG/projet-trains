@@ -30,6 +30,8 @@ public class Position implements Cloneable {
 	private boolean canLeaveGareB;
 	private final int railwayLength;
 
+	private boolean canDeployer;
+
 	public Position(Element elt, Direction d) {
 		if (elt == null || d == null)
 			throw new NullPointerException();
@@ -67,37 +69,43 @@ public class Position implements Cloneable {
 	 * @author Nicolas Sempéré
 	 */
 	public void arriver(String trainName) {
-		if (this.pos.railway.debugPosition) {
-			System.out.println("arriver");
-		}
 		int indexOfPos = this.pos.railway.getIndexOfElement(this.pos);
 		if (this.pos.railway.debugPosition) {
 			System.out.println("\n" + "L'index est " + indexOfPos + " et la direction est " +
 					this.direction);
 		}
+		if (this.pos.railway.debugPosition) {
+			System.out.println("arriver");
+		}
 		if (indexOfPos > 1 & indexOfPos < (railwayLength)) {
 			if (this.direction == Direction.LR) {
-				this.pos.railway.free(indexOfPos, trainName);
 				this.pos.newTrain();
+				this.pos.railway.free(indexOfPos - 1, trainName, this.pos);
 				this.canLeaveToGoLR = true;
 
 			} else if (this.direction == Direction.RL) {
-				this.pos.railway.free(indexOfPos - 1, trainName);
 				this.pos.newTrain();
+				this.pos.railway.free(indexOfPos, trainName, this.pos);
 				this.canLeaveToGoRL = true;
 			}
 
 		} else if (indexOfPos == 1) {
-			this.pos.railway.free(1, trainName);
 			this.pos.newTrain();
+			this.pos.railway.free(1, trainName, this.pos);
 			this.canLeaveGareA = true;
 
 		} else if (indexOfPos == railwayLength) {
-			this.pos.railway.free(railwayLength - 1, trainName);
 			this.pos.newTrain();
+			this.pos.railway.free(railwayLength - 1, trainName, this.pos);
 			this.canLeaveGareB = true;
 
+		} else if (indexOfPos == 0) {
+			this.pos = this.pos.railway.getElementLR(this.pos);
+			this.pos.newTrain();
+			this.canDeployer = true;
 		}
+		System.out.println("------------------>" + "Le train " + trainName +
+				" entre dans " + this.pos);
 	}
 
 	/**
@@ -106,6 +114,8 @@ public class Position implements Cloneable {
 	 * @author Nicolas Sempéré
 	 */
 	public void quitter(String trainName) {
+		System.out.println("------------------>" + "Le train " + trainName +
+				" quitte " + this.pos);
 		if (this.pos.railway.debugPosition) {
 			System.out.println("quitter");
 		}
@@ -124,12 +134,13 @@ public class Position implements Cloneable {
 			this.pos = this.pos.railway.getElementRL(this.pos);
 			this.canLeaveToGoRL = false;
 
-		} else if (this.canLeaveGareA) {
+		} else if (this.canLeaveGareA || this.canDeployer) {
 			this.pos.leaveTrain();
 			this.pos.railway.inUse(1, trainName);
 			this.pos = this.pos.railway.getElementLR(this.pos);
 			this.direction = Direction.LR;
 			this.canLeaveGareA = false;
+			this.canDeployer = false;
 
 		} else if (this.canLeaveGareB) {
 			this.pos.leaveTrain();

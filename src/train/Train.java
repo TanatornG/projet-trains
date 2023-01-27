@@ -48,7 +48,7 @@ public class Train implements Runnable {
 	 */
 	public void atteindre() {
 		this.pos.arriver(this.name);
-		System.out.println("Le train " + this.name + " sort de " + this.pos.getPos());
+		// System.out.println("Le train "+ this.name+ " est en " + this.pos.getPos());
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class Train implements Runnable {
 	 */
 	public void partir() {
 		this.pos.quitter(this.name);
-		System.out.println("Le train " + this.name + " entre dans " + this.pos.getPos());
+		//System.out.println("Le train " + this.name + " entre dans " + this.pos.getPos());
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class Train implements Runnable {
 	 */
 	public void run() {
 		if (this.name == "1") {
-			for (int i = 0; i < 20; i++) {
+			for (int i = 0; i < 15; i++) {
 				atteindre();
 				partir();
 				try {
@@ -78,7 +78,7 @@ public class Train implements Runnable {
 			}
 		}
 		if (this.name == "2") {
-			for (int i = 0; i < 50; i++) {
+			for (int i = 0; i < 15; i++) {
 				atteindre();
 				partir();
 				try {
