@@ -19,7 +19,6 @@ public abstract class Element {
 	private final String name;
 	protected Railway railway;
 
-
 	protected Element(String name) {
 		if (name == null)
 			throw new NullPointerException();

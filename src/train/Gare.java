@@ -28,7 +28,7 @@ public class Gare extends Element {
 	 */
 	public synchronized void newTrain() {
 		if (this.railway.debugGare) {
-			System.out.println( super.getName() + " newTrain et il y a " + this.quaisDispos
+			System.out.println(super.getName() + " newTrain et il y a " + this.quaisDispos
 					+ " quais dispos et la size vaut " + this.size);
 		}
 		while (!(this.quaisDispos > 0)) {
@@ -43,7 +43,7 @@ public class Gare extends Element {
 		}
 		this.quaisDispos -= 1;
 		if (this.railway.debugGare) {
-			System.out.println("newTrain exécutée et quais dispos vaut"+this.quaisDispos);
+			System.out.println("newTrain exécutée et quais dispos vaut" + this.quaisDispos);
 		}
 		notifyAll();
 	}
@@ -55,7 +55,7 @@ public class Gare extends Element {
 	 */
 	public synchronized void leaveTrain() {
 		if (this.railway.debugGare) {
-			System.out.println(super.getName()+" leaveTrain et il y a " + this.quaisDispos
+			System.out.println(super.getName() + " leaveTrain et il y a " + this.quaisDispos
 					+ " quais dispos et la size vaut " + this.size);
 		}
 		while (!(this.quaisDispos < this.size && this.quaisDispos >= 0)) {
@@ -71,7 +71,7 @@ public class Gare extends Element {
 		this.quaisDispos += 1;
 
 		if (this.railway.debugGare) {
-			System.out.println("leaveTrain exécutée et quais dispos vaut"+this.quaisDispos);
+			System.out.println("leaveTrain exécutée et quais dispos vaut" + this.quaisDispos);
 		}
 		notifyAll();
 	}
