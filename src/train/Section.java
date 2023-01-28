@@ -27,7 +27,7 @@ public class Section extends Element {
 		while (!this.sectionDispo) {
 			try {
 				if (this.railway.debugSection) {
-					System.out.println("Train attend section");
+					System.out.println("Train " + trainName + " attend section");
 				}
 				wait();
 			} catch (InterruptedException e) {
@@ -55,7 +55,7 @@ public class Section extends Element {
 		while (this.sectionDispo) {
 			try {
 				if (this.railway.debugSection) {
-					System.out.println("Train attend section");
+					System.out.println("Train " + trainName + " attend section");
 				}
 				wait();
 			} catch (InterruptedException e) {

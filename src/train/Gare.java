@@ -34,7 +34,7 @@ public class Gare extends Element {
 		while (!(this.quaisDispos > 0)) {
 			try {
 				if (this.railway.debugGare) {
-					System.out.println("Train attend gare newTrain");
+					System.out.println("Train" + trainName + " attend gare newTrain");
 				}
 				wait();
 			} catch (InterruptedException e) {
@@ -63,7 +63,7 @@ public class Gare extends Element {
 		while (!(this.quaisDispos < this.size && this.quaisDispos >= 0)) {
 			try {
 				if (this.railway.debugGare) {
-					System.out.println("Train attend gare leave" + super.getName());
+					System.out.println("Train" + trainName + " attend gare leaveTrain");
 				}
 				wait();
 			} catch (InterruptedException e) {
