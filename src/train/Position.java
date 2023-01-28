@@ -38,7 +38,8 @@ public class Position implements Cloneable {
 		this.pos = elt;
 		this.direction = d;
 
-		// The length of the railway (not counting "GareAvantDeploiement")
+		// La longueur de la ligne de chemin de fer (sans compter
+		// "GareAvantDeploiement")
 		railwayLength = this.pos.railway.railwayLength - 1;
 
 	}
@@ -144,7 +145,6 @@ public class Position implements Cloneable {
 			this.pos = this.pos.railway.getElementRL(this.pos);
 			this.direction = Direction.RL;
 			this.canLeaveGareB = false;
-
 		}
 	}
 

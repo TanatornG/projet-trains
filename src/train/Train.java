@@ -42,27 +42,20 @@ public class Train implements Runnable {
 	}
 
 	/**
-	 *
-	 *
 	 * @author Nicolas Sempéré
 	 */
-	public void atteindre() {
+	private void atteindre() {
 		this.pos.arriver(this.name);
-		// System.out.println("Le train "+ this.name+ " est en " + this.pos.getPos());
 	}
 
 	/**
-	 *
 	 * @author Nicolas Sempéré
 	 */
-	public void partir() {
+	private void partir() {
 		this.pos.quitter(this.name);
-		// System.out.println("Le train " + this.name + " entre dans " +
-		// this.pos.getPos());
 	}
 
 	/**
-	 *
 	 * @author Nicolas Sempéré
 	 */
 	public void run() {

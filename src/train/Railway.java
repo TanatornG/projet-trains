@@ -28,6 +28,9 @@ public class Railway {
 		for (Element e : elements)
 			e.setRailway(this);
 		this.railwayLength = this.elements.length;
+		// -2 car :
+		// on compte uniquement les "liaisons" entre les éléments,
+		// on ne compte pas la liaison entre la gare avant déploiement.
 		this.controller = new int[railwayLength - 2];
 		Arrays.fill(this.controller, 1);
 		this.debugCtrl = false;
