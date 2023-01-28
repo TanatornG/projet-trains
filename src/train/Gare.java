@@ -31,7 +31,7 @@ public class Gare extends Element {
 			System.out.println(super.getName() + " newTrain et il y a " + this.quaisDispos
 					+ " quais dispos et la size vaut " + this.size);
 		}
-		while (!(this.quaisDispos > 0)) {
+		while (!this.canNewTrain()) {
 			try {
 				if (this.railway.debugGare) {
 					System.out.println("Train" + trainName + " attend gare newTrain");
@@ -60,7 +60,7 @@ public class Gare extends Element {
 			System.out.println(super.getName() + " leaveTrain et il y a " + this.quaisDispos
 					+ " quais dispos et la size vaut " + this.size);
 		}
-		while (!(this.quaisDispos < this.size && this.quaisDispos >= 0)) {
+		while (!this.canLeaveTrain()) {
 			try {
 				if (this.railway.debugGare) {
 					System.out.println("Train" + trainName + " attend gare leaveTrain");
@@ -78,5 +78,34 @@ public class Gare extends Element {
 			System.out.println("leaveTrain exécutée et quais dispos vaut" + this.quaisDispos);
 		}
 		notifyAll();
+	}
+
+	/**
+	 * @author Nicolas Sempéré
+	 */
+	private boolean canNewTrain() {
+		int previousQuaisDispos = this.quaisDispos;
+		this.quaisDispos -= 1;
+		boolean result = invariant();
+		this.quaisDispos = previousQuaisDispos;
+		return result;
+	}
+
+	/**
+	 * @author Nicolas Sempéré
+	 */
+	private boolean canLeaveTrain() {
+		int previousQuaisDispos = this.quaisDispos;
+		this.quaisDispos += 1;
+		boolean result = invariant();
+		this.quaisDispos = previousQuaisDispos;
+		return result;
+	}
+
+	/**
+	 * @author Nicolas Sempéré
+	 */
+	private boolean invariant() {
+		return (0 <= this.quaisDispos && this.quaisDispos <= this.size);
 	}
 }
