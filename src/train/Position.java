@@ -23,13 +23,15 @@ package train;
 public class Position implements Cloneable {
 	private Direction direction;
 	private Element pos;
+	private int indexOfPos;
+	private int indexOfCtrl;
+
+	private final int mainRailwayLength;
 
 	private boolean canLeaveToGoRL;
 	private boolean canLeaveToGoLR;
 	private boolean canLeaveGareA;
 	private boolean canLeaveGareB;
-	private final int railwayLength;
-
 	private boolean canDeployer;
 
 	public Position(Element elt, Direction d) {
@@ -40,7 +42,7 @@ public class Position implements Cloneable {
 
 		// La longueur de la ligne de chemin de fer (sans compter
 		// "GareAvantDeploiement")
-		railwayLength = this.pos.railway.railwayLength - 1;
+		this.mainRailwayLength = this.pos.railway.railwayLength - 1;
 
 	}
 
@@ -70,40 +72,40 @@ public class Position implements Cloneable {
 	 * @author Nicolas Sempéré
 	 */
 	public void arriver(String trainName) {
-		int indexOfPos = this.pos.railway.getIndexOfElement(this.pos);
+		this.indexOfPos = this.pos.railway.getIndexOfElement(this.pos);
+
 		if (this.pos.railway.debugPosition) {
-			System.out.println("\n" + "L'index est " + indexOfPos + " et la direction est " +
-					this.direction);
+			System.out.println("\n" + "L'index est " + this.indexOfPos + " et la direction est " + this.direction);
 		}
 		if (this.pos.railway.debugPosition) {
 			System.out.println("arriver");
 		}
-		if (indexOfPos > 1 & indexOfPos < (railwayLength)) {
+
+		if (this.indexOfPos > 1 & this.indexOfPos < (mainRailwayLength)) {
 			if (this.direction == Direction.LR) {
-				this.pos.newTrain(trainName);
-				this.pos.railway.free(indexOfPos - 1, trainName, this.pos);
+				this.indexOfCtrl = this.indexOfPos - 1;
 				this.canLeaveToGoLR = true;
 
 			} else if (this.direction == Direction.RL) {
-				this.pos.newTrain(trainName);
-				this.pos.railway.free(indexOfPos, trainName, this.pos);
+				this.indexOfCtrl = this.indexOfPos;
 				this.canLeaveToGoRL = true;
 			}
 
-		} else if (indexOfPos == 1) {
-			this.pos.newTrain(trainName);
-			this.pos.railway.free(1, trainName, this.pos);
+		} else if (this.indexOfPos == 1) {
+			this.indexOfCtrl = 1;
 			this.canLeaveGareA = true;
 
-		} else if (indexOfPos == railwayLength) {
-			this.pos.newTrain(trainName);
-			this.pos.railway.free(railwayLength - 1, trainName, this.pos);
+		} else if (this.indexOfPos == mainRailwayLength) {
+			this.indexOfCtrl = this.mainRailwayLength - 1;
 			this.canLeaveGareB = true;
 
-		} else if (indexOfPos == 0) {
+		} else if (this.indexOfPos == 0) {
 			this.pos = this.pos.railway.getElementLR(this.pos);
-			this.pos.newTrain(trainName);
 			this.canDeployer = true;
+		}
+		this.pos.newTrain(trainName);
+		if (!canDeployer) {
+			this.pos.railway.free(this.indexOfCtrl, trainName, this.pos);
 		}
 	}
 
@@ -116,36 +118,43 @@ public class Position implements Cloneable {
 		if (this.pos.railway.debugPosition) {
 			System.out.println("quitter");
 		}
-		Element currentPosition = this.pos;
-		int indexOfPos = currentPosition.railway.getIndexOfElement(currentPosition);
+		this.indexOfPos = this.pos.railway.getIndexOfElement(this.pos);
 
 		if (this.canLeaveToGoLR) {
-			this.pos.railway.inUse(indexOfPos, trainName);
-			this.pos.leaveTrain(trainName);
-			this.pos = this.pos.railway.getElementLR(this.pos);
+			this.indexOfCtrl = this.indexOfPos;
+			this.canLeave(trainName);
 			this.canLeaveToGoLR = false;
+			this.pos = this.pos.railway.getElementLR(this.pos);
 
 		} else if (this.canLeaveToGoRL) {
-			this.pos.railway.inUse(indexOfPos - 1, trainName);
-			this.pos.leaveTrain(trainName);
-			this.pos = this.pos.railway.getElementRL(this.pos);
+			this.indexOfCtrl = this.indexOfPos - 1;
+			this.canLeave(trainName);
 			this.canLeaveToGoRL = false;
+			this.pos = this.pos.railway.getElementRL(this.pos);
 
 		} else if (this.canLeaveGareA || this.canDeployer) {
-			this.pos.railway.inUse(1, trainName);
-			this.pos.leaveTrain(trainName);
-			this.pos = this.pos.railway.getElementLR(this.pos);
+			this.indexOfCtrl = 1;
+			this.canLeave(trainName);
 			this.direction = Direction.LR;
+			this.pos = this.pos.railway.getElementLR(this.pos);
 			this.canLeaveGareA = false;
 			this.canDeployer = false;
 
 		} else if (this.canLeaveGareB) {
-			this.pos.railway.inUse(railwayLength - 1, trainName);
-			this.pos.leaveTrain(trainName);
-			this.pos = this.pos.railway.getElementRL(this.pos);
+			this.indexOfCtrl = this.mainRailwayLength - 1;
+			this.canLeave(trainName);
 			this.direction = Direction.RL;
+			this.pos = this.pos.railway.getElementRL(this.pos);
 			this.canLeaveGareB = false;
 		}
+	}
+
+	/**
+	 * @author Nicolas Sempéré
+	 */
+	private void canLeave(String trainName) {
+		this.pos.railway.inUse(this.indexOfCtrl, trainName);
+		this.pos.leaveTrain(trainName);
 	}
 
 	/**

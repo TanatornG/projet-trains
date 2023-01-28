@@ -23,8 +23,8 @@ public class Main {
 		try {
 			new Thread(new Train("1", p)).start();
 			new Thread(new Train("2", p.clone())).start();
-			new Thread(new Train("3", p.clone())).start();
-			new Thread(new Train("4", p.clone())).start();
+			// new Thread(new Train("3", p.clone())).start();
+			// new Thread(new Train("4", p.clone())).start();
 			// new Thread(new Train("5", p.clone())).start();
 			// new Thread(new Train("6", p.clone())).start();
 		} catch (BadPositionForTrainException e) {
