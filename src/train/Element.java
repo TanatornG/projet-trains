@@ -39,7 +39,7 @@ public abstract class Element {
 	 *
 	 * @author Nicolas Sempéré
 	 */
-	public void newTrain() {
+	public void newTrain(String trainName) {
 	}
 
 	/**
@@ -47,7 +47,7 @@ public abstract class Element {
 	 *
 	 * @author Nicolas Sempéré
 	 */
-	public void leaveTrain() {
+	public void leaveTrain(String trainName) {
 	}
 
 	/**

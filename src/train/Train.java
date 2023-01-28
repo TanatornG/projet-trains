@@ -57,7 +57,8 @@ public class Train implements Runnable {
 	 */
 	public void partir() {
 		this.pos.quitter(this.name);
-		//System.out.println("Le train " + this.name + " entre dans " + this.pos.getPos());
+		// System.out.println("Le train " + this.name + " entre dans " +
+		// this.pos.getPos());
 	}
 
 	/**
@@ -65,30 +66,10 @@ public class Train implements Runnable {
 	 * @author Nicolas Sempéré
 	 */
 	public void run() {
-		if (this.name == "1") {
-			for (int i = 0; i < 15; i++) {
-				atteindre();
-				partir();
-				try {
-					Thread.sleep(20);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-
-			}
+		while (true) {
+			atteindre();
+			partir();
 		}
-		if (this.name == "2") {
-			for (int i = 0; i < 15; i++) {
-				atteindre();
-				partir();
-				try {
-					Thread.sleep(20);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
 	}
 
 	/**

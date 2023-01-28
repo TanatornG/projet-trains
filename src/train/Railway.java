@@ -76,18 +76,11 @@ public class Railway {
 	 * @author Nicolas Sempéré
 	 */
 	public synchronized void inUse(int posIndex, String trainName) {
-		if (debugCtrl) {
-			System.out.println("Le train " + trainName + " inUse");
-		}
 		int index = posIndex - 1;
-		if (debugCtrl) {
-			System.out.println("Le train " + trainName + " index vaut " + index + " et controller de index vaut "
-					+ this.controller[index]);
-		}
 		while (!(this.controller[index] == 1)) {
 			try {
 				if (debugCtrl) {
-					System.out.println("Le train " + trainName + " attend ctrl");
+					System.out.println("Le train " + trainName + " attend ctrl inUse");
 				}
 				wait();
 			} catch (InterruptedException e) {
@@ -96,10 +89,7 @@ public class Railway {
 		}
 		this.controller[index] = 0;
 		if (debugCtrl) {
-			System.out
-					.println("Le train " + trainName +
-							" Le controller vaut " + Arrays.toString(this.controller) + " et le train vaut"
-							+ trainName);
+			System.out.println("Le train " + trainName + " inUse la liaison numéro" + index);
 		}
 		notifyAll();
 
@@ -109,14 +99,7 @@ public class Railway {
 	 * @author Nicolas Sempéré
 	 */
 	public synchronized void free(int posIndex, String trainName, Element pos) {
-		if (debugCtrl) {
-			System.out.println("Le train " + trainName + " free");
-		}
 		int index = posIndex - 1;
-		if (debugCtrl) {
-			System.out.println("Le train " + trainName + " index vaut " + index + " et controller de index vaut "
-					+ this.controller[index]);
-		}
 		while (!(this.controller[index] == 0)) {
 			try {
 				if (debugCtrl) {
@@ -129,10 +112,7 @@ public class Railway {
 		}
 		this.controller[index] = 1;
 		if (debugCtrl) {
-			System.out
-					.println("Le train " + trainName +
-							" Le controller vaut " + Arrays.toString(this.controller) + " et le train vaut"
-							+ trainName);
+			System.out.println("Le train " + trainName + " free la liaison numéro" + index);
 		}
 		notifyAll();
 

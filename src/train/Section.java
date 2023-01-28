@@ -20,7 +20,7 @@ public class Section extends Element {
 	 *
 	 * @author Nicolas Sempéré
 	 */
-	public synchronized void newTrain() {
+	public synchronized void newTrain(String trainName) {
 		if (this.railway.debugSection) {
 			System.out.println(super.getName() + " section newTrain");
 		}
@@ -34,6 +34,8 @@ public class Section extends Element {
 				e.printStackTrace();
 			}
 		}
+		System.out.println("------------------>" + "Le train " + trainName +
+				" arrive en " + super.getName());
 		this.sectionDispo = false;
 		if (this.railway.debugSection) {
 			System.out.println("newTrain exécutée");
@@ -46,7 +48,7 @@ public class Section extends Element {
 	 *
 	 * @author Nicolas Sempéré
 	 */
-	public synchronized void leaveTrain() {
+	public synchronized void leaveTrain(String trainName) {
 		if (this.railway.debugSection) {
 			System.out.println(super.getName() + "section leaveTrain");
 		}
@@ -60,6 +62,8 @@ public class Section extends Element {
 				e.printStackTrace();
 			}
 		}
+		System.out.println("------------------>" + "Le train " + trainName +
+				" quitte " + super.getName());
 		this.sectionDispo = true;
 		if (this.railway.debugSection) {
 			System.out.println("leaveTrain exécutée");
