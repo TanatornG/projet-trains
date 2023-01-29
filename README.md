@@ -6,6 +6,8 @@ Les réponses aux questions du sujet se situent dans le dossier "Réponses aux q
 --> Cf <Réponses aux questions/Reponses_aux_questions.pdf>
 
 A chaque exercice correspond une branche du repo git.
+Il n'y a pas de bugs connus : le comportement du programme (dans chaque branche) est celui attendu.
+Une cinquième branche, nommée "projetFini", correspond au projet après les 4 exercices, sans reste de debugs, et avec quelques modifications du code (pour le rendre plus compréhensible).
 Le code Java de chaque branche se trouve dans le fichier "src".
 --> Cf <src/train>
 
