@@ -27,7 +27,7 @@ public class Position implements Cloneable {
 	private int indexOfCtrl;
 
 	private Controller controller;
-	private ControllerAB ctrlAB;
+	private ControllerGares ctrlAB;
 
 	private final int mainRailwayLength;
 
@@ -37,7 +37,7 @@ public class Position implements Cloneable {
 	private boolean canLeaveGareB;
 	private boolean canDeployer;
 
-	public Position(Element elt, Direction d, Controller controller, ControllerAB ctrlAB) {
+	public Position(Element elt, Direction d, Controller controller, ControllerGares ctrlAB) {
 		if (elt == null || d == null)
 			throw new NullPointerException();
 		this.pos = elt;

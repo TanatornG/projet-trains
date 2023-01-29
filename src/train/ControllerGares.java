@@ -1,15 +1,15 @@
 package train;
 
-public class ControllerAB {
+public class ControllerGares {
 
     private int nbrTrainsLR;
     private int nbrTrainsRL;
-    private boolean debugCtrlAB;
+    private boolean debugCtrlGares;
 
-    ControllerAB() {
+    ControllerGares() {
         this.nbrTrainsLR = 0;
         this.nbrTrainsRL = 0;
-        this.debugCtrlAB = false;
+        this.debugCtrlGares = false;
     }
 
     /**
@@ -18,7 +18,7 @@ public class ControllerAB {
     public synchronized void newTrainLR() {
         while (!canNewTrainLR()) {
             try {
-                if (this.debugCtrlAB) {
+                if (this.debugCtrlGares) {
                     System.out.println("Un train attend ctrlAB newTrainLR et nbrTrainsLR vaut " + this.nbrTrainsLR);
                 }
                 wait();
@@ -27,7 +27,7 @@ public class ControllerAB {
             }
         }
         this.nbrTrainsLR += 1;
-        if (this.debugCtrlAB) {
+        if (this.debugCtrlGares) {
             System.out.println("newTrainLR et nbrTrainsLR vaut " + this.nbrTrainsLR);
         }
         notifyAll();
@@ -39,7 +39,7 @@ public class ControllerAB {
     public synchronized void newTrainRL() {
         while (!canNewTrainRL()) {
             try {
-                if (this.debugCtrlAB) {
+                if (this.debugCtrlGares) {
                     System.out.println("Un train attend ctrlAB newTrainRL et nbrTrainsRL vaut " + this.nbrTrainsRL);
                 }
                 wait();
@@ -48,7 +48,7 @@ public class ControllerAB {
             }
         }
         this.nbrTrainsRL += 1;
-        if (this.debugCtrlAB) {
+        if (this.debugCtrlGares) {
             System.out.println("newTrainRL et nbrTrainsRL vaut " + this.nbrTrainsRL);
         }
         notifyAll();
@@ -60,7 +60,7 @@ public class ControllerAB {
     public synchronized void arrivedTrainLR() {
         while (!(this.nbrTrainsLR > 0)) {
             try {
-                if (this.debugCtrlAB) {
+                if (this.debugCtrlGares) {
                     System.out.println("Un train attend ctrlAB arrivedTrainLR et nbrTrainsLR vaut " + this.nbrTrainsLR);
                 }
                 wait();
@@ -69,7 +69,7 @@ public class ControllerAB {
             }
         }
         this.nbrTrainsLR -= 1;
-        if (this.debugCtrlAB) {
+        if (this.debugCtrlGares) {
             System.out.println("arrivedTrainLR et nbrTrainsLR vaut " + this.nbrTrainsLR);
         }
         notifyAll();

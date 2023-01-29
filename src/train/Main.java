@@ -20,7 +20,7 @@ public class Main {
 		Railway r = new Railway(new Element[] { GareAvantDeploiement, A, S2, S3, S4, B });
 		System.out.println("The railway is:" + "\t" + r);
 		Controller controller = new Controller(r);
-		ControllerAB ctrlAB = new ControllerAB();
+		ControllerGares ctrlAB = new ControllerGares();
 		Position p = new Position(GareAvantDeploiement, Direction.LR, controller, ctrlAB);
 		try {
 			new Thread(new Train("1", p)).start();
