@@ -8,7 +8,7 @@ public class ControllerMilieu {
 
     ControllerMilieu(int nbrQuaisGareM) {
         this.nbrTrainsToM = 0;
-        this.nbrQuaisGareM = 0;
+        this.nbrQuaisGareM = nbrQuaisGareM;
         this.debugCtrlMilieu = false;
     }
 
@@ -19,7 +19,7 @@ public class ControllerMilieu {
         while (!canNewTrainToM()) {
             try {
                 if (this.debugCtrlMilieu) {
-                    System.out.println("Un train attend ctrlM newTrainLR et nbrTrainsToM vaut " + this.nbrTrainsToM);
+                    System.out.println("Un train attend ctrlM newTrainToM et nbrTrainsToM vaut " + this.nbrTrainsToM);
                 }
                 wait();
             } catch (InterruptedException e) {
@@ -28,7 +28,7 @@ public class ControllerMilieu {
         }
         this.nbrTrainsToM += 1;
         if (this.debugCtrlMilieu) {
-            System.out.println("newTrainLR et nbrTrainsToM vaut " + this.nbrTrainsToM);
+            System.out.println("ctrlM newTrainToM et nbrTrainsToM vaut " + this.nbrTrainsToM);
         }
         notifyAll();
     }
@@ -36,12 +36,12 @@ public class ControllerMilieu {
     /**
      * @author Nicolas Sempéré
      */
-    public synchronized void arrivedTrainM() {
+    public synchronized void arrivedTrainFromM() {
         while (!(this.nbrTrainsToM > 0)) {
             try {
                 if (this.debugCtrlMilieu) {
                     System.out.println(
-                            "Un train attend ctrlM arrivedTrainLR et nbrTrainsToM vaut " + this.nbrTrainsToM);
+                            "Un train attend ctrlM arrivedTrainFromM et nbrTrainsToM vaut " + this.nbrTrainsToM);
                 }
                 wait();
             } catch (InterruptedException e) {
@@ -50,7 +50,7 @@ public class ControllerMilieu {
         }
         this.nbrTrainsToM -= 1;
         if (this.debugCtrlMilieu) {
-            System.out.println("arrivedTrainLR et nbrTrainsToM vaut " + this.nbrTrainsToM);
+            System.out.println("ctrlM arrivedTrainFromM et nbrTrainsToM vaut " + this.nbrTrainsToM);
         }
         notifyAll();
     }
@@ -70,6 +70,6 @@ public class ControllerMilieu {
      * @author Nicolas Sempéré
      */
     private boolean invariant() {
-        return (this.nbrTrainsToM < this.nbrQuaisGareM);
+        return (this.nbrTrainsToM <= this.nbrQuaisGareM);
     }
 }

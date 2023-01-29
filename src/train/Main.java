@@ -31,8 +31,8 @@ public class Main {
 		System.out.println("The railway is:" + "\t" + r);
 
 		Controller controller = new Controller(r);
-		ControllerGares ctrlAM = new ControllerGares();
-		ControllerGares ctrlMB = new ControllerGares();
+		ControllerContraryDir ctrlAM = new ControllerContraryDir();
+		ControllerContraryDir ctrlMB = new ControllerContraryDir();
 		ControllerMilieu ctrlM = new ControllerMilieu(M.getNbrQuais());
 
 		Position p = new Position(GareAvantDeploiement, Direction.LR, controller, ctrlAM, ctrlMB, ctrlM);
