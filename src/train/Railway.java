@@ -65,6 +65,24 @@ public class Railway {
 		return -1;
 	}
 
+	/**
+	 * @param pos (soit une gare, soit une section de rails)
+	 * @return l'indice de pos dans le tableau représentant la ligne de chemin de
+	 *         fer
+	 *
+	 * @author Nicolas Sempéré
+	 */
+	public int getIndexOfGareM() {
+		for (int i = 0; i <= (this.railwayLength - 1); i++) {
+			// System.out.println("this.elements[i] est" + this.elements[i] + " et pos est"
+			// + pos);
+			if (this.elements[i].getName() == "GareM") {
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();

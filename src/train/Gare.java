@@ -21,6 +21,10 @@ public class Gare extends Element {
 		this.quaisDispos = size;
 	}
 
+	public int getNbrQuais() {
+		return this.size;
+	}
+
 	/**
 	 *
 	 *

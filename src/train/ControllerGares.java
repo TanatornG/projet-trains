@@ -19,7 +19,7 @@ public class ControllerGares {
         while (!canNewTrainLR()) {
             try {
                 if (this.debugCtrlGares) {
-                    System.out.println("Un train attend ctrlAB newTrainLR et nbrTrainsLR vaut " + this.nbrTrainsLR);
+                    System.out.println("Un train attend ctrlGares newTrainLR et nbrTrainsLR vaut " + this.nbrTrainsLR);
                 }
                 wait();
             } catch (InterruptedException e) {
@@ -40,7 +40,7 @@ public class ControllerGares {
         while (!canNewTrainRL()) {
             try {
                 if (this.debugCtrlGares) {
-                    System.out.println("Un train attend ctrlAB newTrainRL et nbrTrainsRL vaut " + this.nbrTrainsRL);
+                    System.out.println("Un train attend ctrlGares newTrainRL et nbrTrainsRL vaut " + this.nbrTrainsRL);
                 }
                 wait();
             } catch (InterruptedException e) {
@@ -61,7 +61,8 @@ public class ControllerGares {
         while (!(this.nbrTrainsLR > 0)) {
             try {
                 if (this.debugCtrlGares) {
-                    System.out.println("Un train attend ctrlAB arrivedTrainLR et nbrTrainsLR vaut " + this.nbrTrainsLR);
+                    System.out.println(
+                            "Un train attend ctrlGares arrivedTrainLR et nbrTrainsLR vaut " + this.nbrTrainsLR);
                 }
                 wait();
             } catch (InterruptedException e) {
@@ -81,8 +82,9 @@ public class ControllerGares {
     public synchronized void arrivedTrainRL() {
         while (!(this.nbrTrainsRL > 0)) {
             try {
-                if (this.debugCtrlAB) {
-                    System.out.println("Un train attend ctrlAB arrivedTrainRL et nbrTrainsRL vaut " + this.nbrTrainsRL);
+                if (this.debugCtrlGares) {
+                    System.out.println(
+                            "Un train attend ctrlGares arrivedTrainRL et nbrTrainsRL vaut " + this.nbrTrainsRL);
                 }
                 wait();
             } catch (InterruptedException e) {
@@ -90,7 +92,7 @@ public class ControllerGares {
             }
         }
         this.nbrTrainsRL -= 1;
-        if (this.debugCtrlAB) {
+        if (this.debugCtrlGares) {
             System.out.println("arrivedTrainRL et nbrTrainsRL vaut " + this.nbrTrainsRL);
         }
         notifyAll();
