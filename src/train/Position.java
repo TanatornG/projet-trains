@@ -26,6 +26,8 @@ public class Position implements Cloneable {
 	private int indexOfPos;
 	private int indexOfCtrl;
 
+	private Controller controller;
+
 	private final int mainRailwayLength;
 
 	private boolean canLeaveToGoRL;
@@ -34,7 +36,7 @@ public class Position implements Cloneable {
 	private boolean canLeaveGareB;
 	private boolean canDeployer;
 
-	public Position(Element elt, Direction d) {
+	public Position(Element elt, Direction d, Controller controller) {
 		if (elt == null || d == null)
 			throw new NullPointerException();
 		this.pos = elt;
@@ -43,6 +45,7 @@ public class Position implements Cloneable {
 		// La longueur de la ligne de chemin de fer (sans compter
 		// "GareAvantDeploiement")
 		this.mainRailwayLength = this.pos.railway.railwayLength - 1;
+		this.controller = controller;
 
 	}
 
@@ -105,7 +108,7 @@ public class Position implements Cloneable {
 		}
 		this.pos.newTrain(trainName);
 		if (!canDeployer) {
-			this.pos.railway.free(this.indexOfCtrl, trainName, this.pos);
+			this.controller.free(this.indexOfCtrl, trainName);
 		}
 	}
 
@@ -153,7 +156,7 @@ public class Position implements Cloneable {
 	 * @author Nicolas Sempéré
 	 */
 	private void canLeave(String trainName) {
-		this.pos.railway.inUse(this.indexOfCtrl, trainName);
+		this.controller.inUse(this.indexOfCtrl, trainName);
 		this.pos.leaveTrain(trainName);
 	}
 

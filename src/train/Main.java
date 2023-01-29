@@ -19,11 +19,12 @@ public class Main {
 		Section S4 = new Section("S4");
 		Railway r = new Railway(new Element[] { GareAvantDeploiement, A, S2, S3, S4, B });
 		System.out.println("The railway is:" + "\t" + r);
-		Position p = new Position(GareAvantDeploiement, Direction.LR);
+		Controller controller = new Controller(r);
+		Position p = new Position(GareAvantDeploiement, Direction.LR, controller);
 		try {
 			new Thread(new Train("1", p)).start();
 			new Thread(new Train("2", p.clone())).start();
-			// new Thread(new Train("3", p.clone())).start();
+			new Thread(new Train("3", p.clone())).start();
 			// new Thread(new Train("4", p.clone())).start();
 			// new Thread(new Train("5", p.clone())).start();
 			// new Thread(new Train("6", p.clone())).start();
