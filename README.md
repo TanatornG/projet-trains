@@ -1,5 +1,7 @@
 Projet de Trains - Nicolas Sempéré
 
+Repo git : https://github.com/TanatornG/projet-trains
+
 Modélisation de trains avec de la programmation concurrente.
 
 Les réponses aux questions du sujet se situent dans le dossier "Réponses aux questions".

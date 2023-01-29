@@ -12,7 +12,6 @@ public class Railway {
 	protected final int railwayLength;
 
 	protected final boolean debugGare;
-	protected final boolean debugPosition;
 	protected final boolean debugSection;
 
 	public Railway(Element[] elements) {
@@ -26,7 +25,6 @@ public class Railway {
 
 		this.debugGare = false;
 		this.debugSection = false;
-		this.debugPosition = false;
 	}
 
 	/**

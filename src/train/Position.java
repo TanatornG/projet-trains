@@ -87,14 +87,6 @@ public class Position implements Cloneable {
 	 */
 	public void arriver(String trainName) {
 		this.indexOfPos = this.pos.railway.getIndexOfElement(this.pos);
-
-		if (this.pos.railway.debugPosition) {
-			System.out.println("\n" + "L'index est " + this.indexOfPos + " et la direction est " + this.direction);
-		}
-		if (this.pos.railway.debugPosition) {
-			System.out.println("arriver");
-		}
-
 		// Sections et Gare M
 		if (this.indexOfPos > 1 && this.indexOfPos < (mainRailwayLength)) {
 			if (this.direction == Direction.LR) {
@@ -136,6 +128,7 @@ public class Position implements Cloneable {
 			this.pos = this.pos.railway.getElementLR(this.pos);
 			this.canDeployer = true;
 		}
+		// Actions communes
 		this.pos.newTrain(trainName);
 		if (!canDeployer) {
 			this.controller.free(this.indexOfCtrl, trainName);
@@ -148,11 +141,9 @@ public class Position implements Cloneable {
 	 * @author Nicolas Sempéré
 	 */
 	public void quitter(String trainName) {
-		if (this.pos.railway.debugPosition) {
-			System.out.println("quitter");
-		}
 		this.indexOfPos = this.pos.railway.getIndexOfElement(this.pos);
 
+		// Section et Gare M (sens LR)
 		if (this.canLeaveToGoLR) {
 			this.indexOfCtrl = this.indexOfPos;
 			if (this.canLeaveGareM) {
@@ -163,7 +154,9 @@ public class Position implements Cloneable {
 			this.canLeaveToGoLR = false;
 			this.pos = this.pos.railway.getElementLR(this.pos);
 
-		} else if (this.canLeaveToGoRL) {
+		}
+		// Section et Gare M (sens RL)
+		else if (this.canLeaveToGoRL) {
 			this.indexOfCtrl = this.indexOfPos - 1;
 			if (this.canLeaveGareM) {
 				this.ctrlAM.newTrainRL();
@@ -173,7 +166,9 @@ public class Position implements Cloneable {
 			this.canLeaveToGoRL = false;
 			this.pos = this.pos.railway.getElementRL(this.pos);
 
-		} else if (this.canLeaveGareA || this.canDeployer) {
+		}
+		// Gare A et Gare Avant Déploiement
+		else if (this.canLeaveGareA || this.canDeployer) {
 			this.indexOfCtrl = 1;
 			this.ctrlM.newTrainToM();
 			this.ctrlAM.newTrainLR();
@@ -183,7 +178,9 @@ public class Position implements Cloneable {
 			this.canLeaveGareA = false;
 			this.canDeployer = false;
 
-		} else if (this.canLeaveGareB) {
+		}
+		// Gare B
+		else if (this.canLeaveGareB) {
 			this.indexOfCtrl = this.mainRailwayLength - 1;
 			this.ctrlM.newTrainToM();
 			this.ctrlMB.newTrainRL();
