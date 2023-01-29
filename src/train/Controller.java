@@ -13,7 +13,7 @@ public class Controller {
         // -2 car :
         // on compte uniquement les "liaisons" entre les éléments,
         // on ne compte pas la liaison entre la gare avant déploiement.
-        this.controller = new int[railway.railwayLength - 2];
+        this.controller = new int[this.railway.railwayLength - 2];
         Arrays.fill(this.controller, 1);
         this.debugCtrl = false;
     }
