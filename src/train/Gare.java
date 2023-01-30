@@ -31,15 +31,8 @@ public class Gare extends Element {
 	 * @author Nicolas Sempéré
 	 */
 	public synchronized void newTrain(String trainName) {
-		if (this.railway.debugGare) {
-			System.out.println(super.getName() + " newTrain et il y a " + this.quaisDispos
-					+ " quais dispos et la size vaut " + this.size);
-		}
 		while (!this.canNewTrain()) {
 			try {
-				if (this.railway.debugGare) {
-					System.out.println("Train" + trainName + " attend gare newTrain");
-				}
 				wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -48,9 +41,6 @@ public class Gare extends Element {
 		System.out.println("------------------>" + "Le train " + trainName +
 				" arrive en " + super.getName());
 		this.quaisDispos -= 1;
-		if (this.railway.debugGare) {
-			System.out.println("newTrain exécutée et quais dispos vaut" + this.quaisDispos);
-		}
 		notifyAll();
 	}
 
@@ -60,15 +50,8 @@ public class Gare extends Element {
 	 * @author Nicolas Sempéré
 	 */
 	public synchronized void leaveTrain(String trainName) {
-		if (this.railway.debugGare) {
-			System.out.println(super.getName() + " leaveTrain et il y a " + this.quaisDispos
-					+ " quais dispos et la size vaut " + this.size);
-		}
 		while (!this.canLeaveTrain()) {
 			try {
-				if (this.railway.debugGare) {
-					System.out.println("Train" + trainName + " attend gare leaveTrain");
-				}
 				wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -77,10 +60,6 @@ public class Gare extends Element {
 		System.out.println("------------------>" + "Le train " + trainName +
 				" quitte " + super.getName());
 		this.quaisDispos += 1;
-
-		if (this.railway.debugGare) {
-			System.out.println("leaveTrain exécutée et quais dispos vaut" + this.quaisDispos);
-		}
 		notifyAll();
 	}
 

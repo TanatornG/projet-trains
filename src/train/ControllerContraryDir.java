@@ -4,12 +4,10 @@ public class ControllerContraryDir {
 
     private int nbrTrainsLR;
     private int nbrTrainsRL;
-    private boolean debugCtrlGares;
 
     ControllerContraryDir() {
         this.nbrTrainsLR = 0;
         this.nbrTrainsRL = 0;
-        this.debugCtrlGares = false;
     }
 
     /**
@@ -18,20 +16,12 @@ public class ControllerContraryDir {
     public synchronized void newTrainLR() {
         while (!canNewTrainLR()) {
             try {
-                if (this.debugCtrlGares) {
-                    System.out.println(
-                            "Un train attend ctrlContraryDir newTrainLR et nbrTrainsLR vaut " + this.nbrTrainsLR
-                                    + " et nbrTrainsRL vaut " + this.nbrTrainsRL);
-                }
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
         this.nbrTrainsLR += 1;
-        if (this.debugCtrlGares) {
-            System.out.println("newTrainLR et nbrTrainsLR vaut " + this.nbrTrainsLR);
-        }
         notifyAll();
     }
 
@@ -41,20 +31,13 @@ public class ControllerContraryDir {
     public synchronized void newTrainRL() {
         while (!canNewTrainRL()) {
             try {
-                if (this.debugCtrlGares) {
-                    System.out.println(
-                            "Un train attend ctrlContraryDir newTrainRL et nbrTrainsRL vaut " + this.nbrTrainsRL
-                                    + " et nbrTrainsLR vaut " + this.nbrTrainsLR);
-                }
+
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
         this.nbrTrainsRL += 1;
-        if (this.debugCtrlGares) {
-            System.out.println("newTrainRL et nbrTrainsRL vaut " + this.nbrTrainsRL);
-        }
         notifyAll();
     }
 
@@ -64,19 +47,12 @@ public class ControllerContraryDir {
     public synchronized void arrivedTrainLR() {
         while (!(this.nbrTrainsLR > 0)) {
             try {
-                if (this.debugCtrlGares) {
-                    System.out.println(
-                            "Un train attend ctrlContraryDir arrivedTrainLR et nbrTrainsLR vaut " + this.nbrTrainsLR);
-                }
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
         this.nbrTrainsLR -= 1;
-        if (this.debugCtrlGares) {
-            System.out.println("arrivedTrainLR et nbrTrainsLR vaut " + this.nbrTrainsLR);
-        }
         notifyAll();
     }
 
@@ -86,19 +62,12 @@ public class ControllerContraryDir {
     public synchronized void arrivedTrainRL() {
         while (!(this.nbrTrainsRL > 0)) {
             try {
-                if (this.debugCtrlGares) {
-                    System.out.println(
-                            "Un train attend ctrlContraryDir arrivedTrainRL et nbrTrainsRL vaut " + this.nbrTrainsRL);
-                }
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
         this.nbrTrainsRL -= 1;
-        if (this.debugCtrlGares) {
-            System.out.println("arrivedTrainRL et nbrTrainsRL vaut " + this.nbrTrainsRL);
-        }
         notifyAll();
     }
 

@@ -11,9 +11,6 @@ public class Railway {
 	private final Element[] elements;
 	protected final int railwayLength;
 
-	protected final boolean debugGare;
-	protected final boolean debugSection;
-
 	public Railway(Element[] elements) {
 		if (elements == null)
 			throw new NullPointerException();
@@ -23,8 +20,6 @@ public class Railway {
 			e.setRailway(this);
 		this.railwayLength = this.elements.length;
 
-		this.debugGare = false;
-		this.debugSection = false;
 	}
 
 	/**

@@ -4,12 +4,10 @@ public class ControllerMilieu {
 
     private final int nbrQuaisGareM;
     private int nbrTrainsToM;
-    private boolean debugCtrlMilieu;
 
     ControllerMilieu(int nbrQuaisGareM) {
         this.nbrTrainsToM = 0;
         this.nbrQuaisGareM = nbrQuaisGareM;
-        this.debugCtrlMilieu = false;
     }
 
     /**
@@ -18,18 +16,12 @@ public class ControllerMilieu {
     public synchronized void newTrainToM() {
         while (!canNewTrainToM()) {
             try {
-                if (this.debugCtrlMilieu) {
-                    System.out.println("Un train attend ctrlM newTrainToM et nbrTrainsToM vaut " + this.nbrTrainsToM);
-                }
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
         this.nbrTrainsToM += 1;
-        if (this.debugCtrlMilieu) {
-            System.out.println("ctrlM newTrainToM et nbrTrainsToM vaut " + this.nbrTrainsToM);
-        }
         notifyAll();
     }
 
@@ -39,19 +31,12 @@ public class ControllerMilieu {
     public synchronized void arrivedTrainFromM() {
         while (!(this.nbrTrainsToM > 0)) {
             try {
-                if (this.debugCtrlMilieu) {
-                    System.out.println(
-                            "Un train attend ctrlM arrivedTrainFromM et nbrTrainsToM vaut " + this.nbrTrainsToM);
-                }
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
         this.nbrTrainsToM -= 1;
-        if (this.debugCtrlMilieu) {
-            System.out.println("ctrlM arrivedTrainFromM et nbrTrainsToM vaut " + this.nbrTrainsToM);
-        }
         notifyAll();
     }
 
