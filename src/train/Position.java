@@ -26,10 +26,10 @@ public class Position implements Cloneable {
 	private int indexOfPos;
 	private int indexOfCtrl;
 
-	private Controller controller;
-	private ControllerContraryDir ctrlAM;
-	private ControllerContraryDir ctrlMB;
-	private ControllerMilieu ctrlM;
+	private CtrlAdjacence ctrlAdj;
+	private CtrlSensInverse ctrlSensAM;
+	private CtrlSensInverse ctrlSensMB;
+	private CtrlCapaciteLigne ctrlCapacite;
 
 	private final int mainRailwayLength;
 	private final int indexOfGareM;
@@ -41,9 +41,12 @@ public class Position implements Cloneable {
 	private boolean canDeployer;
 	private boolean canLeaveGareM;
 
-	public Position(Element elt, Direction d, Controller controller, ControllerContraryDir ctrlAM,
-			ControllerContraryDir ctrlMB,
-			ControllerMilieu ctrlM) {
+	public Position(Element elt, Direction d,
+			CtrlAdjacence ctrlAdj,
+			CtrlSensInverse ctrlSensAM,
+			CtrlSensInverse ctrlSensMB,
+			CtrlCapaciteLigne ctrlCapacite) {
+
 		if (elt == null || d == null)
 			throw new NullPointerException();
 		this.pos = elt;
@@ -54,10 +57,10 @@ public class Position implements Cloneable {
 		this.mainRailwayLength = this.pos.railway.railwayLength - 1;
 		this.indexOfGareM = this.pos.railway.getIndexOfGareM();
 
-		this.controller = controller;
-		this.ctrlAM = ctrlAM;
-		this.ctrlMB = ctrlMB;
-		this.ctrlM = ctrlM;
+		this.ctrlAdj = ctrlAdj;
+		this.ctrlSensAM = ctrlSensAM;
+		this.ctrlSensMB = ctrlSensMB;
+		this.ctrlCapacite = ctrlCapacite;
 	}
 
 	/**
@@ -87,51 +90,71 @@ public class Position implements Cloneable {
 	 */
 	public void arriver(String trainName) {
 		this.indexOfPos = this.pos.railway.getIndexOfElement(this.pos);
+
 		// Sections et Gare M
 		if (this.indexOfPos > 1 && this.indexOfPos < (mainRailwayLength)) {
+
 			if (this.direction == Direction.LR) {
-				this.indexOfCtrl = this.indexOfPos - 1;
 				this.canLeaveToGoLR = true;
 
+				this.indexOfCtrl = this.indexOfPos - 1;
+
 			} else if (this.direction == Direction.RL) {
-				this.indexOfCtrl = this.indexOfPos;
 				this.canLeaveToGoRL = true;
+
+				this.indexOfCtrl = this.indexOfPos;
 			}
 		}
+
 		// Gare M
 		if (this.indexOfPos == this.indexOfGareM) {
-			if (this.direction == Direction.LR) {
-				this.ctrlAM.arrivedTrainLR();
-			} else if (this.direction == Direction.RL) {
-				this.ctrlMB.arrivedTrainRL();
-			}
 			this.canLeaveGareM = true;
 
+			if (this.direction == Direction.LR) {
+				this.ctrlSensAM.arrivedTrainLR();
+			} else if (this.direction == Direction.RL) {
+				this.ctrlSensMB.arrivedTrainRL();
+			}
+
 		}
+
 		// Gare A
 		if (this.indexOfPos == 1) {
-			this.ctrlM.arrivedTrainFromM();
-			this.ctrlAM.arrivedTrainRL();
-			this.indexOfCtrl = 1;
 			this.canLeaveGareA = true;
+			this.indexOfCtrl = 1;
+
+			this.ctrlCapacite.arrivedTrainFromLine();
+			this.ctrlSensAM.arrivedTrainRL();
 		}
 
 		// Gare B
 		if (this.indexOfPos == mainRailwayLength) {
-			this.ctrlM.arrivedTrainFromM();
-			this.ctrlMB.arrivedTrainLR();
-			this.indexOfCtrl = this.mainRailwayLength - 1;
 			this.canLeaveGareB = true;
+			this.indexOfCtrl = this.mainRailwayLength - 1;
+
+			this.ctrlCapacite.arrivedTrainFromLine();
+			this.ctrlSensMB.arrivedTrainLR();
 		}
+
 		// Gare Avant Déploiement
 		if (this.indexOfPos == 0) {
-			this.pos = this.pos.railway.getElementLR(this.pos);
 			this.canDeployer = true;
+
+			this.pos = this.pos.railway.getElementLR(this.pos);
 		}
-		// Actions communes
+		// Actions communes pour arriver
+		this.ctrlArriver(trainName);
+	}
+
+	/**
+	 * Réalisation des contrôles pour arriver
+	 *
+	 * @author Nicolas Sempéré
+	 */
+	private void ctrlArriver(String trainName) {
 		this.pos.newTrain(trainName);
-		if (!canDeployer) {
-			this.controller.free(this.indexOfCtrl, trainName);
+		if (!this.canDeployer) {
+			this.ctrlAdj.free(this.indexOfCtrl, trainName);
 		}
 	}
 
@@ -143,11 +166,11 @@ public class Position implements Cloneable {
 	public void quitter(String trainName) {
 		this.indexOfPos = this.pos.railway.getIndexOfElement(this.pos);
 
-		// Section et Gare M (sens LR)
+		// Sections et Gare M (sens LR)
 		if (this.canLeaveToGoLR) {
 			this.indexOfCtrl = this.indexOfPos;
 			if (this.canLeaveGareM) {
-				this.ctrlMB.newTrainLR();
+				this.ctrlSensMB.newTrainLR();
 				this.canLeaveGareM = false;
 			}
 			this.canLeave(trainName);
@@ -155,11 +178,12 @@ public class Position implements Cloneable {
 			this.pos = this.pos.railway.getElementLR(this.pos);
 
 		}
-		// Section et Gare M (sens RL)
+
+		// Sections et Gare M (sens RL)
 		else if (this.canLeaveToGoRL) {
 			this.indexOfCtrl = this.indexOfPos - 1;
 			if (this.canLeaveGareM) {
-				this.ctrlAM.newTrainRL();
+				this.ctrlSensAM.newTrainRL();
 				this.canLeaveGareM = false;
 			}
 			this.canLeave(trainName);
@@ -167,11 +191,12 @@ public class Position implements Cloneable {
 			this.pos = this.pos.railway.getElementRL(this.pos);
 
 		}
+
 		// Gare A et Gare Avant Déploiement
 		else if (this.canLeaveGareA || this.canDeployer) {
 			this.indexOfCtrl = 1;
-			this.ctrlM.newTrainToM();
-			this.ctrlAM.newTrainLR();
+			this.ctrlCapacite.newTrainOnLine();
+			this.ctrlSensAM.newTrainLR();
 			this.canLeave(trainName);
 			this.direction = Direction.LR;
 			this.pos = this.pos.railway.getElementLR(this.pos);
@@ -179,11 +204,12 @@ public class Position implements Cloneable {
 			this.canDeployer = false;
 
 		}
+
 		// Gare B
 		else if (this.canLeaveGareB) {
 			this.indexOfCtrl = this.mainRailwayLength - 1;
-			this.ctrlM.newTrainToM();
-			this.ctrlMB.newTrainRL();
+			this.ctrlCapacite.newTrainOnLine();
+			this.ctrlSensMB.newTrainRL();
 			this.canLeave(trainName);
 			this.direction = Direction.RL;
 			this.pos = this.pos.railway.getElementRL(this.pos);
@@ -195,7 +221,7 @@ public class Position implements Cloneable {
 	 * @author Nicolas Sempéré
 	 */
 	private void canLeave(String trainName) {
-		this.controller.inUse(this.indexOfCtrl, trainName);
+		this.ctrlAdj.inUse(this.indexOfCtrl, trainName);
 		this.pos.leaveTrain(trainName);
 	}
 

@@ -19,6 +19,11 @@ public abstract class Element {
 	private final String name;
 	protected Railway railway;
 
+	private CtrlAdjacence controller;
+	private CtrlSensInverse ctrlAM;
+	private CtrlSensInverse ctrlMB;
+	private CtrlCapaciteLigne ctrlM;
+
 	protected Element(String name) {
 		if (name == null)
 			throw new NullPointerException();

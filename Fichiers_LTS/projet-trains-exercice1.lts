@@ -3,7 +3,7 @@
 //				On ne distingue pas encore gares et sections de rails.
 
 const N = 5 // Nombre d"éléments sur la ligne de chemin de fer
-range P = 1..N 
+range P = 1..N
 
 // Le déplacement du train est décomposé en deux temps :
 //    - il atteint une section (ou une gare)
@@ -15,9 +15,9 @@ ELEMENT = (newTrain -> leaveTrain -> ELEMENT).
 
 // La ligne de chemin de fer est décomposée comme suivant (p représente la position) :
 // 		Element1 -- Element2 -- Element3 -- ... -- ElementN-1 -- ElementN
-//		  p=1    --    p=2   --   p=3    -- ... --   p=N-1    --   p=N     
+//		  p=1    --    p=2   --   p=3    -- ... --   p=N-1    --   p=N
 //
-// Le train parcourt la ligne comme suivant :  
+// Le train parcourt la ligne comme suivant :
 // 		arrive en Element1 -> quitte l'Element1 -> arrive en Element2 -> ... -> arrive en ElementN-1 ->
 // 		quitte l'ElementN-1 -> arrive en ElementN.
 // Il fait ensuite demi-tour :
@@ -33,7 +33,7 @@ POSITION(P=1,D=1) = POSITION[P][D],
 							).
 
 ||RAILWAY = (train:TRAIN || element[P]:ELEMENT || pos:POSITION(1,1))
-/{		
+/{
 	forall[p:P]{
 		pos.arriver[p]/{element[p].newTrain, train.atteindre},
 		pos.quitter[p]/{element[p].leaveTrain, train.partir}

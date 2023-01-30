@@ -1,6 +1,6 @@
 // Exercice 2 : Plusieurs trains se déplacent sur la ligne de chemin de fer.
 //				Le déplacement des trains est le même qu'en exercice 1 (voir processus "POSITION").
-//				Les trains ne peuvent pas se doubler ou se croiser 
+//				Les trains ne peuvent pas se doubler ou se croiser
 //				(en partie grâce au processus "CONTROLLER").
 
 // Comme attendu, le système complet ("RAILWAY"), possède des états d'interblocage.

@@ -1,11 +1,25 @@
 package train;
 
-public class ControllerContraryDir {
+/**
+ * Contrôleur empêchant deux trains de s'engager en sens inverse entre deux
+ * gares adjacentes.
+ *
+ * Utilisé quelque soit la forme de la ligne (c'est à dire pour tous les
+ * exercices) :
+ * Ex 2 et 3 : Gare A – Section 2 – Section 3 – Gare B. (A et B sont adjacentes)
+ * Ex 4 : GareA – Section 2 – Section 3 – GareM – Section 5 – Section 6 – GareB
+ * (A et M sont adjacentes, M et B sont adjacentes).
+ *
+ * Cf --> CONTROLLER_GARES en FSP.
+ *
+ * @author Nicolas Sempéré
+ */
+public class CtrlSensInverse {
 
     private int nbrTrainsLR;
     private int nbrTrainsRL;
 
-    ControllerContraryDir() {
+    CtrlSensInverse() {
         this.nbrTrainsLR = 0;
         this.nbrTrainsRL = 0;
     }

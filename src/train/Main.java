@@ -30,10 +30,10 @@ public class Main {
 		Railway r = new Railway(new Element[] { GareAvantDeploiement, A, S2, S3, S4, M, S6, S7, S8, B });
 		System.out.println("The railway is:" + "\t" + r);
 
-		Controller controller = new Controller(r);
-		ControllerContraryDir ctrlAM = new ControllerContraryDir();
-		ControllerContraryDir ctrlMB = new ControllerContraryDir();
-		ControllerMilieu ctrlM = new ControllerMilieu(M.getNbrQuais());
+		CtrlAdjacence controller = new CtrlAdjacence(r.railwayLength);
+		CtrlSensInverse ctrlAM = new CtrlSensInverse();
+		CtrlSensInverse ctrlMB = new CtrlSensInverse();
+		CtrlCapaciteLigne ctrlM = new CtrlCapaciteLigne(M.getNbrQuais());
 
 		Position p = new Position(GareAvantDeploiement, Direction.LR, controller, ctrlAM, ctrlMB, ctrlM);
 		try {

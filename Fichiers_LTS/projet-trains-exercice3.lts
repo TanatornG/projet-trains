@@ -1,6 +1,6 @@
 // Exercice 3 : Plusieurs trains se déplacent sur la ligne de chemin de fer.
 //				Le déplacement des trains est le même qu'en exercice 1 (voir processus "POSITION").
-//				Les trains ne peuvent pas se doubler ou se croiser 
+//				Les trains ne peuvent pas se doubler ou se croiser
 //				(en partie grâce au processus "CONTROLLER").
 
 // Le système ne possède plus d'état d'interblocage dû à des trains engagés dans des sens contraires :
@@ -8,7 +8,7 @@
 // Cette propriété est assurée par le processus CONTROLLER_AB
 
 // Le système possède un interblocage dû au fait qu'un train est initialement en position 0
-// (c'est à dire non déployé). 
+// (c'est à dire non déployé).
 // Ainsi, si un train est engagé de la gareB vers la gareA, et que la gareA se rempli
 // en raison de déploiements de trains, le système se bloque.
 
@@ -39,7 +39,7 @@ SECTION = (newTrain -> leaveTrain -> SECTION).
 GARE(Q=1) = GARE[Q],
 	GARE[i:I] = (when(i>0) 			newTrain -> GARE[i-1]
 				|when(i>=0 & i<Q)	leaveTrain -> GARE[i+1]
-				). 
+				).
 
 // Controlleur empêchant deux trains de se doubler ou de se croiser.
 // l=1 <-> Free | l=0 <-> inUse
@@ -50,21 +50,21 @@ CONTROLLER(L=1) = CONTROLLER[L],
 
 // Controlleur empêchant deux trains de s'engager en sens inverse entre les gare A et B.
 CONTROLLER_AB = (newTrainLR -> IN_USE_LR[1] | newTrainRL -> IN_USE_RL[1]),
-			IN_USE_LR[j:J] = 	(when(j>0 & j<T) newTrainLR -> IN_USE_LR[j+1] 
+			IN_USE_LR[j:J] = 	(when(j>0 & j<T) newTrainLR -> IN_USE_LR[j+1]
 								|when(j>1) arrivedTrainLR -> IN_USE_LR[j-1]
 								|when(j==1) arrivedTrainLR -> CONTROLLER_AB
 								),
-			IN_USE_RL[j:J] = 	(when(j>0 & j<T) newTrainRL -> IN_USE_RL[j+1] 
+			IN_USE_RL[j:J] = 	(when(j>0 & j<T) newTrainRL -> IN_USE_RL[j+1]
 								|when(j>1) arrivedTrainRL -> IN_USE_RL[j-1]
 								|when(j==1) arrivedTrainRL -> CONTROLLER_AB
 								).
 
 // La ligne de chemin de fer est décomposée comme suivant (p représente la position) :
 // 		GareA -- Section2 -- Section3 -- ... -- SectionN-1 -- GareB
-//		 p=1  --    p=2   --    p=3   -- ... --    p=N-1   --  p=N     
+//		 p=1  --    p=2   --    p=3   -- ... --    p=N-1   --  p=N
 //
 // Un train est tout d'abord déployé en gareA.
-// Le train parcourt ensuite la ligne comme suivant :  
+// Le train parcourt ensuite la ligne comme suivant :
 // 		quitte la GareA -> arrive en Section2 -> quitte la Section2 -> ... -> arrive en SectionN-1 ->
 // 		quitte la SectionN-1 -> arrive en GareB.
 // Il fait ensuite demi-tour :
@@ -74,7 +74,7 @@ CONTROLLER_AB = (newTrainLR -> IN_USE_LR[1] | newTrainRL -> IN_USE_RL[1]),
 // D = 1 <-> déplacement de gauche à droite || D = 2 <-> déplacement de droite à gauche
 // Un train est initialement en position 0 (avant d'être déployé en gareA).
 POSITION(P=1,D=1) = POSITION[P][D],
-	POSITION[p:P][d:1..2] =	
+	POSITION[p:P][d:1..2] =
 		(when(p==0)				déployer -> quitterLR[1] -> POSITION[2][1]
 		|when(p>1 & p<N & d==1) arriverLR[p] -> quitterLR[p] -> POSITION[p+1][1]
 		|when(p==N) 			arriverLR[N] -> quitterRL[N] -> POSITION[N-1][2]
